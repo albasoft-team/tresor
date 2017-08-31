@@ -40,7 +40,7 @@ class AfterLoginRedirection implements AuthenticationSuccessHandlerInterface
         if ($this->security->isGranted('ROLE_ADMIN')) {
             $response = new RedirectResponse($this->router->generate('admin_index'));
         } else {
-            $response = new RedirectResponse($this->router->generate('enter_index'));
+            $response = new RedirectResponse($this->router->generate('analyze_index'));
         }
         return $response;
     }

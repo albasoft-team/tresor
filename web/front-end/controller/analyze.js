@@ -18,6 +18,12 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                     ];
        $scope.form = {}; var nomcomp ='', nomaxe = '';
         $scope.analyser = function (form) {
+            console.log(form);
+            // if (form.dateDebut > form.dateFin) {
+            //     $('#erreurDate').css({
+            //         'display' : 'block'
+            //     })
+            // }
             nomcomp = form.composant.split('|')[1];
             nomaxe = form.axe.split('|')[1];
             analyseService.postData(form)
@@ -120,6 +126,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                 }
                                             }
                                         },
+                                        exporting: { enabled: false },
                                         tooltip: {
                                             // headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
                                             pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}</b><br/>'
@@ -179,6 +186,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                         title: {
                                             text: 'Postes comptables de la région de '+ $scope.nameofpoint
                                         },
+                                        exporting: { enabled: false },
                                         plotOptions: {
                                             pie: {
                                                 allowPointSelect: true,
@@ -245,6 +253,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                 color: '#BADA55'
                             }
                         },
+                        // exporting: { enabled: false },
                         dataLabels: {
                             enabled: true,
                             format:  '{point.name}'

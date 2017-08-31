@@ -51,6 +51,12 @@ class InputTable
      * })
      */
     private $composant;
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateremise", type="date", nullable=true)
+     */
+    private $dateremise;
 
     /**
      * @var \Node
@@ -192,5 +198,21 @@ class InputTable
     public function getNode()
     {
         return $this->node;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateremise()
+    {
+        return $this->dateremise;
+    }
+
+    /**
+     * @param \DateTime $dateremise
+     */
+    public function setDateremise($dateremise)
+    {
+        $this->dateremise = $dateremise;
     }
 }

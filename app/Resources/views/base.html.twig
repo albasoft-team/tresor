@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Bienvenue | Vusulba{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('senegal.png') }}" />
         <link rel="stylesheet" href="{{ asset('front-end/dist/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('front-end/bootstrap/css/bootstrap.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('front-end/dist/css/bootstrap-cerulean.min.css') }}" />
@@ -33,6 +33,12 @@
         <style>
             .content {
                 padding-top: 35px!important;
+            }
+            .box.box-primary {
+                padding: 25px;
+            }
+            .box{
+                margin-top: 33px;
             }
         </style>
     </head>
@@ -109,51 +115,9 @@
                 <ul class="sidebar-menu">
                     <li class="header" style="font-size: medium"><i class="fa fa-dashboard"></i> <span>Tableau de bord</span></li>
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                    {#<li class="treeview">#}
-                        {#<a href="#">#}
-                            {#<i class="fa fa-pie-chart"></i>#}
-                            {#<span>Charts</span>#}
-                            {#<span class="pull-right-container">#}
-                              {#<i class="fa fa-angle-left pull-right"></i>#}
-                            {#</span>#}
-                        {#</a>#}
-                        {#<ul class="treeview-menu">#}
-                            {#<li><a href="#"><i class="fa fa-circle-o"></i> ChartJS</a></li>#}
-                            {#<li><a href="#"><i class="fa fa-circle-o"></i> Map</a></li>#}
-                            {#<li><a href="#"><i class="fa fa-circle-o"></i> Inline charts</a></li>#}
-                        {#</ul>#}
-                    {#</li>#}
+                       {% block analyser %}
+                        {% endblock %}
                     {% endif %}
-                    {#<li class="treeview">#}
-                        {#<a href="#">#}
-                            {#<i class="fa fa-laptop"></i>#}
-                            {#<span>UI Elements</span>#}
-                            {#<span class="pull-right-container">#}
-                              {#<i class="fa fa-angle-left pull-right"></i>#}
-                            {#</span>#}
-                        {#</a>#}
-                        {#<ul class="treeview-menu">#}
-                            {#<li><a href="#"><i class="fa fa-circle-o"></i> General</a></li>#}
-                            {#<li><a href="#"><i class="fa fa-circle-o"></i> Icons</a></li>#}
-                            {#<li><a href="#"><i class="fa fa-circle-o"></i> Buttons</a></li>#}
-                            {#<li><a href="#"><i class="fa fa-circle-o"></i> Sliders</a></li>#}
-                            {#<li><a href="#"><i class="fa fa-circle-o"></i> Timeline</a></li>#}
-                            {#<li><a href="#"><i class="fa fa-circle-o"></i> Modals</a></li>#}
-                        {#</ul>#}
-                    {#</li>#}
-
-                    {#<li class="treeview">#}
-                        {#<a href="#">#}
-                            {#<i class="fa fa-folder"></i> <span>Examples</span>#}
-                            {#<span class="pull-right-container">#}
-                              {#<i class="fa fa-angle-left pull-right"></i>#}
-                            {#</span>#}
-                        {#</a>#}
-                        {#<ul class="treeview-menu">#}
-                            {#<li><a href="#"><i class="fa fa-circle-o"></i> 404 Error</a></li>#}
-                            {#<li><a href="#"><i class="fa fa-circle-o"></i> 500 Error</a></li>#}
-                        {#</ul>#}
-                    {#</li>#}
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -211,6 +175,9 @@
         <script>
             $.widget.bridge('uibutton', $.ui.button);
         </script>
+        <script>
+
+        </script>
         <script src="{{ asset('front-end/bootstrap/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('front-end/plugins/datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('front-end/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
@@ -227,6 +194,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
         <script src="{{ asset('front-end/plugins/daterangepicker/daterangepicker.js') }}"></script>
         <script src="{{ asset('front-end/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
+        <script src="{{ asset('front-end/plugins/datepicker/locales/bootstrap-datepicker.fr.js') }}"></script>
         <script src="{{ asset('front-end/plugins/colorpicker/bootstrap-colorpicker.min.js') }}"></script>
         <script src="{{ asset('front-end/plugins/timepicker/bootstrap-timepicker.min.js') }}"></script>
         <script src="{{ asset('front-end/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
@@ -241,7 +209,7 @@
         <script src="{{ asset('front-end/bower_components/highcharts/highcharts.js') }}"></script>
         {#<script src="{{ asset('front-end/bower_components/highcharts/js/highstock.js') }}"></script>#}
         <script src="{{ asset('front-end/bower_components/highcharts/js/modules/map.js') }}"></script>
-        <script src="{{ asset('front-end/bower_components/highcharts/js/modules/exporting.js') }}"></script>
+        {#<script src="{{ asset('front-end/bower_components/highcharts/js/modules/exporting.js') }}"></script>#}
         <script src="{{ asset('front-end/bower_components/highcharts/map/sn-all.js') }}"></script>
         <script src="{{ asset('front-end/node_modules/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
         <script src="{{ asset('front-end/bower_components/highcharts/modules/drilldown.js') }}"></script>

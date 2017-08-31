@@ -53,6 +53,8 @@ class analyzeController extends Controller
         $composant =  explode('|', $data['composant'])[0];
         $axe = explode('|',$data['axe'])[0];
         $niveau = $data['level'];
+//        $dateDebut = $data['dateDebut'];
+//        $dateDebut = $data['dateFin'];
         $em = $this->getDoctrine()->getManager();
         $comp = $em->getRepository('VueBundle:Composant')->find(intval($composant));
         $results = $em->getRepository('VueBundle:InputTable')
