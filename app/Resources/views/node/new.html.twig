@@ -1,0 +1,20 @@
+<form id="ScopeForm" role="form" method="post">
+    <div class="form-group">
+       <label for="ScopeForm.name">Nom</label>
+        {{ form_errors(form.name) }}
+        {{ form_widget(form.name) }}
+    </div>
+    <div class="form-group">
+       <label for="ScopeForm.name">Description</label>
+        {{ form_errors(form.description) }}
+        {{ form_widget(form.description) }}
+    </div>
+    <div class="form-group">
+       <label for="ScopeForm.name">Parent</label>
+        {{ form_errors(form.parent) }}
+        {{ form_widget(form.parent) }}
+    </div>
+    {{ form_widget(form._token) }}
+    <button type="button" class="btn btn-success" onclick="addScope()">Ajouter</button>
+    <img src="{{ asset('img/minload.gif') }}" alt="loading" id="loadingScope" hidden="hidden">
+</form>

@@ -1,0 +1,9 @@
+<label>Composants</label>
+<img src="{{ asset('img/minload.gif') }}" alt="loading" hidden="hidden" id="minload">
+<span class="pull-right"><a onclick="showCompForm()" class="btn btn-success btn-sm anaBtnplus"><i class="glyphicon glyphicon-plus"></i></a></span>
+<select class="form-control select2" id="idComposant" style="width: 100%;">
+    <option></option>
+    {% for comp in composants %}
+        <option>{{ comp.name  }}</option>
+    {% endfor %}
+</select>

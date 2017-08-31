@@ -1,0 +1,32 @@
+
+    <table id="example1" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Groupe</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for composant in composants %}
+            <tr>
+                <td><a href="{{ path('composant_show', { 'id': composant.id }) }}">{{ composant.id }}</a></td>
+                <td>{{ composant.name }}</td>
+                <td>{{ composant.description }}</td>
+                <td>{% if composant.groupe %}{{ composant.groupe.name }}{% endif %}</td>
+                <td>
+                        {#<li>#}
+                            {#<a href="{{ path('composant_show', { 'id': composant.id }) }}"><i ></i></a>#}
+                        {#</li>#}
+                        <a class="btn btn-success btn-sm" href="{{ path('composant_edit', { 'id': composant.id }) }}"><i class="glyphicon glyphicon-pencil"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        $("#example1").DataTable();
+    </script>

@@ -1,0 +1,7 @@
+vue_homepage:
+    path:     /
+    defaults: { _controller: VueBundle:Default:index }
+
+#analyze_index:
+#    path:     /analyser
+#    defaults: { _controller: VueBundle:analyze:index}

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <a class="btn btn-sm btn-primary" href="{{ path('admin_index') }}"><i class="glyphicon glyphicon-list"></i></a>
+    <h1 >Modification d'un composant</h1>
+
+    {{ form_start(edit_form) }}
+    {{ form_widget(edit_form) }}
+    <input class="btn btn-success btn-sm" type="submit" value="Modifier" />
+    {{ form_end(edit_form) }}
+    {#<div style="display:inline-block;">#}
+        {#{{ form_start(delete_form) }}#}
+        {#<input class="btn btn-danger btn-sm" type="submit" value="Supprimer">#}
+        {#{{ form_end(delete_form) }}#}
+    {#</div>#}
+
+
+
+
+
+
+{% endblock %}

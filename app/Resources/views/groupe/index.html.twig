@@ -1,0 +1,26 @@
+ <table id="groupCompId" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for groupe in groupes %}
+            <tr>
+                <td><a href="{{ path('groupe_show', { 'id': groupe.id }) }}">{{ groupe.id }}</a></td>
+                <td>{{ groupe.name }}</td>
+                <td>{{ groupe.description }}</td>
+                <td>
+                    <a class="btn btn-success btn-sm" href="{{ path('groupe_edit', { 'id': groupe.id }) }}"><i class="glyphicon glyphicon-pencil"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+   <script>
+       $('#groupCompId').DataTable();
+   </script>

@@ -1,0 +1,14 @@
+{
+  "name": "front-end",
+  "version": "1.0.0",
+  "description": "application front end",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap-select": "^1.12.4"
+  }
+}

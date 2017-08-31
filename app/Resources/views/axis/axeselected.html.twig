@@ -1,0 +1,32 @@
+<label for="exampleInput">Choisir le premier axe </label>
+<select onchange="isChange(value)" class="form-control opera2" id="idaxe">
+    {% for axe in axes %}
+        <option>{{ axe.name  }}</option>
+    {% endfor %}
+    {#<option ng-repeat="axe in allAxis">[[ axe.name ]]</option>#}
+</select>
+{#<select class="selectpicker" multiple>#}
+    {#<option>Mustard</option>#}
+    {#<option>Ketchup</option>#}
+    {#<option>Relish</option>#}
+{#</select>#}
+
+<script>
+    $('.selectpicker').selectpicker();
+    if ($('#idaxe').val() == '' || $('#idOperateur').val() == '') {
+        $('#vusalba_vuebundle_axis_formula').css('display','none');
+        $('#formuleId').css('display','none');
+    }
+    function isChange(valeur) {
+        var str = "";
+        if ($('#idaxe').val() !=='' && $('#idOperateur').val() !== '' && $('#idOper2').val() !== '') {
+            var axe1 = $('#idaxe').val();
+            var axe2 = $('#idOper2').val();
+            str = axe1 + $('#idOperateur').val() + axe2;
+            $('#formuleId').css('display','block');
+            $('#vusalba_vuebundle_axis_formula').css('display','block');
+            $('#vusalba_vuebundle_axis_formula').val(str);
+            $('#vusalba_vuebundle_axis_formula').attr('disabled','disabled');
+        }
+    }
+</script>

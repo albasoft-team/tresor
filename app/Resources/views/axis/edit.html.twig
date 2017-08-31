@@ -1,0 +1,52 @@
+<form id="editAxe" role="form" method="post">
+    <div class="alert alert-danger" id="flashErrorFrom" hidden="hidden">{{ form_errors(form) }}</div>
+    <input type="hidden" id="idAxe" name="id" value="{{ id }}">
+    <div class="form-group">
+        <label for="exampleInput">Name</label>
+        {{ form_errors(form.name) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'} }) }}
+    </div>
+    <div class="form-group">
+        <label for="exampleInput">Description</label>
+        {{ form_errors(form.description) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control'} }) }}
+    </div>
+     <div class="form-group">
+        <label for="exampleInput">Axe Calculé ?</label>
+         {#{{ form_label("Axe Calculé ?") }}#}
+        {{ form_errors(form.iscalculated) }}
+         {{ form_widget(form.iscalculated) }}
+         {#<div class="checkbox">#}
+             {#<label>#}
+                 {#<input id="iscalculated" type="checkbox" name="vusalba_vuebundle_axis[iscalculated]" value="{{ form.iscalculated }}"> axe calculé ?#}
+             {#</label>#}
+         {#</div>#}
+        {#{{ form_widget(form.iscalculated) }}#}
+    </div>
+    <div class="form-group" id="formula" style="display: none">
+        <div id="axeSelect" class="form-group" >
+
+        </div>
+        <label for="exampleInput">Choisir un operateur</label>
+        <select onchange="isChange(this.value)" class="form-control select2" ng-model="operateur" id="idOperateur" style="width: 100%;">
+            <option></option>
+            <option>+</option>
+            <option>*</option>
+            <option>-</option>
+            <option>/</option>
+            {#<option ng-repeat="axe in allAxis">[[ axe.name ]]</option>#}
+        </select>
+        <div id="axeSelect2" class="form-group">
+
+        </div>
+        <label for="exampleInput">Formule</label>
+         {#{{ form_label("Axe Calculé ?") }}#}
+        {{ form_errors(form.formula) }}
+        {{ form_widget(form.formula) }}
+    </div>
+    {{ form_widget(form._token) }}
+    <button type="button" class="btn btn-success" onclick="editAxe('{{ id }}')">Modifier</button>
+    <img src="{{ asset('img/minload.gif') }}" alt="loading" id="loadingScope" hidden="hidden">
+
+
+</form>

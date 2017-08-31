@@ -1,0 +1,7 @@
+services:
+    commande:
+        class: Vusalba\VueBundle\Service\Commande
+        calls:
+            - [setContainer, ["@service_container"] ]
+    createQuery:
+        class: Vusalba\VueBundle\Service\CreateQuery

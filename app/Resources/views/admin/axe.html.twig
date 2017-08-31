@@ -1,0 +1,9 @@
+<label>Axes</label>
+<img src="{{ asset('img/minload.gif') }}" alt="loading" hidden="hidden" id="minloadAxe">
+<span class="pull-right"><a onclick="showAxeForm()" class="btn btn-success btn-sm anaBtnplus"><i class="glyphicon glyphicon-plus"></i></a></span>
+<select class="form-control select2" style="width: 100%;">
+    <option></option>
+    {% for axe in axes %}
+        <option>{{ axe.name  }}</option>
+    {% endfor %}
+</select>

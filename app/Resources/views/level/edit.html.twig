@@ -1,0 +1,25 @@
+
+<form id="editLevel">
+    <div class="alert alert-danger" id="flashErrorFrom" hidden="hidden">{{ form_errors(form) }}</div>
+    <input type="hidden" id="idLevel" name="id" value="{{ id }}">
+    <div class="form-group">
+        <label for="exampleInput">Nom</label>
+        {{ form_errors(form.name) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'} }) }}
+    </div>
+    <div class="form-group">
+        <label for="exampleInput">Description</label>
+        {{ form_errors(form.description) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control'} }) }}
+    </div>
+    <div class="form-group">
+        <label for="exampleInput">Constitue un portée d'analyse</label>
+        {{ form_errors(form.scopeAnalysis) }}
+        {{ form_widget(form.scopeAnalysis) }}
+    </div>
+    <input type="hidden" name="vusalba_vuebundle_level[niveau]" value="{{ level }}">
+    {{ form_widget(form._token) }}
+    <button type="button" class="btn btn-success btn-sm" onclick="editLevel('{{ id }}')">Ajouter</button>
+    <img src="{{ asset('img/minload.gif') }}" alt="loading" id="loadingLevel" hidden="hidden">
+</form>
+

@@ -1,0 +1,66 @@
+<a href="#" style="margin-bottom: 10px;" onclick="showUserForm()" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-plus"></i></a>
+<table id="usersTable" class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Nom utilisateur</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Noeud</th>
+        <th>Roles</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.enabled }}</td>
+            <td>{% if user.node %}{{ user.node.name }}{% endif %}</td>
+            <td>
+                <select>
+                    {% for profile in user.roles %}
+                        <option>{{ profile.role }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td class="center">
+                <a class="btn btn-sm btn-success" href="#">
+                    <i class="glyphicon glyphicon-zoom-in icon-white"></i>
+                </a>
+                <a class="btn btn-sm btn-info" href="#">
+                    <i class="glyphicon glyphicon-edit icon-white"></i>
+                </a>
+                <a class="btn btn-sm btn-danger" href="#">
+                    <i class="glyphicon glyphicon-trash icon-white"></i>
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="modal fade" id="frmUserModal" tabindex="-1" role="dialog" type_operationaria-labelledby="frmUserModal" aria-hidden="true" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header well" data-original-title="">
+                    <h2 style="margin-top: 0px;font-size: 18px"><i class="glyphicon glyphicon-edit"></i> Ajouter un utilisateur</h2>
+                    <div class="box-icon" style="float: right; margin-top: -34px">
+                        <a style="padding: 5px; border-radius: 50px" href="#" id="closeuser" class="btn btn-close btn-round btn-default" data-dismiss="modal" aria-hidden="true">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="box">
+                    <div class="box-inner">
+                        <div class="box-content" id="contentModalUser">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

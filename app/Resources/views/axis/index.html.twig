@@ -1,0 +1,58 @@
+
+    <table id="axesid" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Groupe</th>
+                <th>Iscalculated</th>
+                <th>Formula</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for axi in axes %}
+            <tr>
+                <td><a href="{{ path('axis_show', { 'id': axi.id }) }}">{{ axi.id }}</a></td>
+                <td>{{ axi.name }}</td>
+                <td>{{ axi.description }}</td>
+                <td>{% if axi.groupe %}{{ axi.groupe.name }}{% endif %}</td>
+                <td>{% if axi.iscalculated %}Yes{% else %}No{% endif %}</td>
+                <td>{{ axi.formula }}</td>
+                <td>
+                    <a class="btn-sm btn btn-success" onclick="updateAxe('{{ axi.id }}')"><i class="glyphicon glyphicon-pencil"></i></a>
+                    {#<a href="{{ path('axis_show', { 'id': axi.id }) }}">show</a>#}
+                </td>
+            </tr>
+            <div class="modal fade" id="frmUpdateAxe{{ axi.id }}" tabindex="-1" role="dialog" type_operationaria-labelledby="frmAxeModal" aria-hidden="true" >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="box-header well" data-original-title="">
+                                <h2 style="margin-top: 0px;font-size: 18px"><i class="glyphicon glyphicon-edit"></i> Modifier un axe </h2>
+                                <div class="box-icon" style="float: right; margin-top: -34px">
+                                    <a style="padding: 5px; border-radius: 50px" href="#" id="closeAxe{{ axi.id }}" class="btn btn-close btn-round btn-default" data-dismiss="modal" aria-hidden="true">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="box">
+                                <div class="box-inner">
+                                    <div class="box-content" id="contentModalAxe{{ axi.id }}">
+                                    </div>
+                                    <img style="width: 50%; margin-left: auto; margin-right: auto; display: block" src="{{ asset('img/ajax-loader.gif') }}" alt="loading"   id="editloading{{ axi.id }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        $("#axesid").DataTable();
+    </script>

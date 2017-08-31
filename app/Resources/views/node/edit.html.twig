@@ -1,0 +1,29 @@
+
+    <form id="editNode" role="form" method="post">
+        <div class="alert alert-danger" id="flashErrorFrom" hidden="hidden">{{ form_errors(form) }}</div>
+        <input type="hidden" id="idNode" name="id" value="{{ id }}">
+        <div class="form-group">
+            <label for="exampleInput">Name</label>
+            {{ form_errors(form.name) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Nom'} }) }}
+        </div>
+        <div class="form-group">
+            <label for="exampleInput">Description</label>
+            {{ form_errors(form.description) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Description'} }) }}
+        </div>
+        <div class="form-group">
+            <label for="exampleInput">Niveau</label>
+            {{ form_errors(form.level) }}
+            {{ form_widget(form.level, {'attr': {'class': 'form-control', 'placeholder': 'Niveau'} }) }}
+        </div>
+        <div class="form-group">
+            <label for="exampleInput">Parent</label>
+            {{ form_errors(form.parent) }}
+            {{ form_widget(form.parent, {'attr': {'class': 'form-control', 'placeholder': 'Niveau'} }) }}
+        </div>
+        {{ form_widget(form._token) }}
+        <button type="button" class="btn btn-success" onclick="editNode('{{ id }}')">Modifier</button>
+        <img src="{{ asset('img/minload.gif') }}" alt="loading" id="loadingScope" hidden="hidden">
+    </form>
+

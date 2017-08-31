@@ -1,0 +1,26 @@
+
+    <table  id="axegroup" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for axeGroupe in axeGroupes %}
+            <tr>
+                <td><a href="{{ path('axegroupe_show', { 'id': axeGroupe.id }) }}">{{ axeGroupe.id }}</a></td>
+                <td>{{ axeGroupe.name }}</td>
+                <td>{{ axeGroupe.description }}</td>
+                <td>
+                    <a class="btn btn-success btn-sm" href="{{ path('axegroupe_edit', { 'id': axeGroupe.id }) }}"><i class="glyphicon glyphicon-pencil"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        $("#axegroup").DataTable();
+    </script>

@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Custom Tabs -->
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab_1" onclick="_get('list_users','','users','loadingUser')" data-toggle="tab">Utilisateurs</a></li>
+                    <li><a href="#tab_2" onclick="_get('list_profiles','','profiles','loadingProfile')" data-toggle="tab">Profiles</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Liste des utilisateurs</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body" id="users">
+                            </div>
+                            <img style="width: 10%; margin-left: auto; margin-right: auto; display: block" src="{{ asset('img/ajax-loader.gif') }}" alt="loading"   id="loadingUser">
+                            <!-- /.box-body -->
+                        </div>
+
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_2">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Profiles</h3>
+                            </div>
+                            <!-- /.box-header -->
+                            <button class="btn btn-sm btn-default" onclick="showProfilFrom()"  style="margin-top: 5px; margin-bottom: 5px;">
+                                <i class="glyphicon glyphicon-plus-sign"></i> Ajouter un profil
+                            </button>
+                            <div class="box-body" id="profiles">
+                            </div>
+                            <img style="width: 10%; margin-left: auto; margin-right: auto; display: block" src="{{ asset('img/ajax-loader.gif') }}" alt="loading" id="loadingProfile">
+                            <!-- /.box-body -->
+                        </div>
+                    </div>
+
+
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- nav-tabs-custom -->
+        </div>
+    </div>
+    {# Modal #}
+    <!-- Modal -->
+    <div class="modal fade" id="frmProfilModal" tabindex="-1" role="dialog" type_operationaria-labelledby="frmProfilModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="box-header well" data-original-title="">
+                        <span><i class="glyphicon glyphicon-edit"></i> Ajouter un profile</span>
+                        <span class="" style="float: right;">
+                            <a href="#" style="padding: 4px" id="close" class="btn btn-close btn-round btn-default" data-dismiss="modal" aria-hidden="true">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="box">
+                        <div class="box-inner">
+                            <div class="box-content" id="contentModalProfil">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload = function () {
+            _get('list_users','', 'users', 'loadingUser');
+        };
+    </script>
+{% endblock %}
+{% block javascripts %}
+{% endblock%}

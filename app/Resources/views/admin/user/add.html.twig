@@ -1,0 +1,42 @@
+<form role="form" method="post" id="frmUserAdd">
+    <div class="alert alert-danger" id="flashErrorFrom" hidden="hidden">{{ form_errors(form) }}</div>
+
+    <div class="form-group">
+        <label for="exampleInput">Nom d'utilisateur</label>
+        {{ form_errors(form.username) }}
+        {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder': 'Entrez le nom utilisateur'} }) }}
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email</label>
+        {{ form_errors(form.email) }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'} }) }}
+    </div>
+    <div class="form-group">
+        <label for="">Mot de passe</label>
+        {{ form_errors(form.plainPassword) }}
+        {{ form_widget(form.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Mot de passe'} }) }}
+    </div>
+    <div class="form-group">
+        <label for="">Noeud</label>
+        {{ form_errors(form.node) }}
+        {{ form_widget(form.node, {'attr': {'class': 'form-control'} }) }}
+    </div>
+    {#<div class="form-group">#}
+        {#<label for="">Rôles</label>#}
+        {#{{ form_errors(form.profiles) }}#}
+        {#{{ form_widget(form.profiles, {'attr': {'class': 'form-control'} }) }}#}
+    {#</div>#}
+
+    {{ form_widget(form._token) }}
+    <div class="form-group">
+    </div>
+    <input  class="btn btn-sm btn-success" value="Ajouter" onclick="addUser()">
+    <img src="{{ asset('img/minload.gif') }}" alt="loading" id="loadingUser" hidden="hidden">
+</form>
+
+<script>
+    if($('#flashErrorFrom').html() !== ''){
+        $('#flashErrorFrom').removeAttr('hidden');
+    }
+    else $('#flashErrorFrom').attr('hidden', 'hidden');
+</script>

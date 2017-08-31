@@ -1,0 +1,43 @@
+<form id="addComposant" role="form" method="post">
+    <div class="alert alert-danger" id="flashErrorFrom" hidden="hidden">{{ form_errors(form) }}</div>
+    <div class="form-group">
+        <label for="exampleInput">Nom</label>
+        {{ form_errors(form.name) }}
+        {{ form_widget(form.name, {'attr': {'placeholder': 'nom'} }) }}
+    </div>
+    <div class="form-group">
+        <label for="exampleInput">Description</label>
+        {{ form_errors(form.description) }}
+        {{ form_widget(form.description, {'attr': {'placeholder': 'description'} }) }}
+    </div>
+    <div class="form-group">
+        <label for="exampleInput">Groupe</label>
+        {{ form_errors(form.groupe) }}
+        {{ form_widget(form.groupe, {'attr': {'placeholder': 'groupe'} }) }}
+    </div>
+    {{ form_widget(form._token) }}
+    <button type="button" class="btn btn-success" onclick="addComposant()">Ajouter</button>
+    <img src="{{ asset('img/minload.gif') }}" alt="loading" id="loadingComp" hidden="hidden">
+</form>
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block body %}#}
+    {#<h1>Composant creation</h1>#}
+
+    {#{{ form_start(form) }}#}
+        {#{{ form_widget(form) }}#}
+        {#<input type="submit" value="Create" />#}
+    {#{{ form_end(form) }}#}
+
+    {#<ul>#}
+        {#<li>#}
+            {#<a href="{{ path('composant_index') }}">Back to the list</a>#}
+        {#</li>#}
+    {#</ul>#}
+{#{% endblock %}#}
+<script>
+    if($('#flashErrorFrom').html() !== ''){
+        $('#flashErrorFrom').removeAttr('hidden');
+    }
+    else $('#flashErrorFrom').attr('hidden', 'hidden');
+</script>

@@ -1,0 +1,7 @@
+<label for="exampleInput">Choisir le deuxième axe </label>
+<select onchange="isChange(value)" class="form-control" id="idOper2">
+    {% for axe in axes %}
+        <option>{{ axe.name  }}</option>
+    {% endfor %}
+    {#<option ng-repeat="axe in allAxis">[[ axe.name ]]</option>#}
+</select>

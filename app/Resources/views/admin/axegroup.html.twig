@@ -1,0 +1,32 @@
+<label>Groupe d'axes</label>
+<span class="pull-right"><a onclick="showGroupAxegroupForm()" class="btn btn-success btn-sm anaBtnplus"><i class="glyphicon glyphicon-plus"></i></a></span>
+<select class="form-control select2" id="idGroupComp" style="width: 100%;">
+    <option></option>
+    {% for group in axegroupes %}
+        <option>{{ group.name  }}</option>
+    {% endfor %}
+</select>
+<div class="modal fade" id="frmGroupAxeModal" tabindex="-1" role="dialog" type_operationaria-labelledby="frmGroupAxeModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header well" data-original-title="">
+                    <h2 style="margin-top: 0px;font-size: 18px"><i class="glyphicon glyphicon-edit"></i> Ajouter un groupe d'axe</h2>
+                    <div class="box-icon" style="float: right; margin-top: -34px">
+                        <a style="padding: 5px; border-radius: 50px" href="#" id="closeGroupAxe" class="btn btn-close btn-round btn-default" data-dismiss="modal" aria-hidden="true">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="box">
+                    <div class="box-inner">
+                        <div class="box-content" id="contentGroupModalAxe">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div

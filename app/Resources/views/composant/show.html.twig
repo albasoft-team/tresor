@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Composant</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ composant.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ composant.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ composant.description }}</td>
+            </tr>
+            <tr>
+                <th>Groupe</th>
+                <td>{{ composant.groupe }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('composant_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('composant_edit', { 'id': composant.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

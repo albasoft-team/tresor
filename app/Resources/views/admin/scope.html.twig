@@ -1,0 +1,9 @@
+<label>Noeuds</label>
+<img src="{{ asset('img/minload.gif') }}" alt="loading" hidden="hidden" id="minloadScope">
+<span class="pull-right"><a onclick="showNodeForm()" class="btn btn-success btn-sm anaBtnplus"><i class="glyphicon glyphicon-plus"></i></a></span>
+<select class="form-control select2" style="width: 100%;">
+    <option></option>
+    {% for scope in scopes %}
+        <option>{{ scope.name }}</option>
+    {% endfor %}
+</select>

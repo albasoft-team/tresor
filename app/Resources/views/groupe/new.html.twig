@@ -1,0 +1,16 @@
+<form id="addgroupComp" role="form" method="post">
+    <div class="alert alert-danger" id="flashErrorFrom" hidden="hidden">{{ form_errors(form) }}</div>
+    <div class="form-group">
+        <label for="exampleInput">Nom</label>
+        {{ form_errors(form.name) }}
+        {{ form_widget(form.name, {'attr': {'placeholder': 'nom', 'required': 'required'} }) }}
+    </div>
+    <div class="form-group">
+        <label for="exampleInput">Description</label>
+        {{ form_errors(form.description) }}
+        {{ form_widget(form.description, {'attr': {'placeholder': 'Description'} }) }}
+    </div>
+    {{ form_widget(form._token) }}
+    <button type="button" class="btn btn-success" onclick="addGroupComp()">Ajouter</button>
+    <img src="{{ asset('img/minload.gif') }}" alt="loading" id="loadingComp" hidden="hidden">
+</form>

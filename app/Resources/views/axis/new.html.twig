@@ -1,0 +1,60 @@
+<div>
+    <form id="formAxis" role="form" method="post">
+        <div class="alert alert-danger" id="flashErrorFrom" hidden="hidden">{{ form_errors(form) }}</div>
+        <div class="form-group">
+            <label for="exampleInput">Nom</label>
+            {{ form_errors(form.name) }}
+            {{ form_widget(form.name, {'attr': {'placeholder': 'nom'} }) }}
+        </div>
+        <div class="form-group">
+            <label for="exampleInput">Description</label>
+            {{ form_errors(form.description) }}
+            {{ form_widget(form.description, {'attr': {'placeholder': 'description'} }) }}
+        </div>
+         <div class="form-group">
+            <label for="exampleInput">Groupe</label>
+            {{ form_errors(form.groupe) }}
+            {{ form_widget(form.groupe) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_errors(form.iscalculated) }}
+            <div class="checkbox">
+                <label>
+                    <input id="iscalculated" type="checkbox" name="vusalba_vuebundle_axis[iscalculated]" value="1"> axe calculé ?
+                </label>
+            </div>
+            {#<input id="iscalculated" type="checkbox" name="iscalculated" value="1">#}
+            {#{{ form_widget(form.iscalculated, {'attr': {'placeholder': 'Axe calculé'} }) }}#}
+        </div>
+
+        <div id="axeSelect" class="form-group" hidden="hidden">
+
+        </div>
+        <div id="formula" class="form-group" hidden="hidden">
+            <label for="exampleInput">Choisir un operateur</label>
+            <select onchange="isChange(this.value)" class="form-control select2" ng-model="operateur" id="idOperateur" style="width: 100%;">
+                <option></option>
+                <option>+</option>
+                <option>*</option>
+                <option>-</option>
+                <option>/</option>
+                {#<option ng-repeat="axe in allAxis">[[ axe.name ]]</option>#}
+            </select>
+            <div id="axeSelect2" class="form-group">
+
+            </div>
+            <label id="formuleId" for="exampleInput">Formule</label>
+            {{ form_errors(form.formula) }}
+            {{ form_widget(form.formula) }}
+        </div>
+
+        {{ form_widget(form._token) }}
+        <button type="button" class="btn btn-success" onclick="addAxe()">Ajouter</button>
+        <img src="{{ asset('img/minload.gif') }}" alt="loading" id="loadingAxe" hidden="hidden">
+    </form>
+</div>
+
+<script>
+
+</script>

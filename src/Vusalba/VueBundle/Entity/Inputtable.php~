@@ -1,0 +1,67 @@
+<?php
+
+namespace Vusalba\VueBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * InputTable
+ *
+ * @ORM\Table(name="input_table", indexes={@ORM\Index(name="comp_inputtable_id", columns={"composant_id"}), @ORM\Index(name="node_inputtable_id", columns={"node_id"})})
+ * @ORM\Entity
+ */
+class InputTable
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tags", type="string", length=1000, nullable=true)
+     */
+    private $tags;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="MontantTotal", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $montanttotal;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="NbCheques", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $nbcheques;
+
+    /**
+     * @var \Composant
+     *
+     * @ORM\ManyToOne(targetEntity="Composant")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="composant_id", referencedColumnName="id")
+     * })
+     */
+    private $composant;
+
+    /**
+     * @var \Node
+     *
+     * @ORM\ManyToOne(targetEntity="Node")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="node_id", referencedColumnName="id")
+     * })
+     */
+    private $node;
+
+
+}
+
