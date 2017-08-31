@@ -13,7 +13,6 @@ vusalbaApp.controller('enterDataController', ['$scope','$rootScope','enterDataSe
             enterDataService.getAll()
                 .then(function (response) {
                     _hide('loader');
-                    console.log(response);
                     if (response.data.length > 0) {
                         _show('bodyTable');
                         _show('thColumn');
@@ -38,7 +37,6 @@ vusalbaApp.controller('enterDataController', ['$scope','$rootScope','enterDataSe
                         $scope.emptyData = "Cet utilisateur n'a pas données à saisir"
                     }
 
-                    console.log($rootScope.iscreated);
                 }, function (msg) {
 
                 });
@@ -101,7 +99,6 @@ vusalbaApp.controller('enterDataController', ['$scope','$rootScope','enterDataSe
 
 
             });
-             console.log(donnees);
             angular.forEach(listCalcul, function (item) {
                 var op1 = 0;
                 var op2 = 0;
@@ -109,19 +106,15 @@ vusalbaApp.controller('enterDataController', ['$scope','$rootScope','enterDataSe
                 angular.forEach(donnees.axeValues, function (it) {
 
                     if (item.operande1 == it.name) {
-                        console.log(it.value);
                        op1 =  parseFloat((it.value).replace(/\s/g,''));
                     }
 
                     if (item.operande2 == it.name) {
-                        console.log(it.value);
                         op2 = parseFloat((it.value).replace(/\s/g,''));
                     }
                     if (op1 !== 0 && op2 !== 0) {
                         angular.forEach(donnees.axeValues, function (it2) {
                             if (it2.formule == item.formule) {
-                                console.log(op1);
-                                console.log(op2);
                                 switch (operateur) {
                                     case '/' : it2.value = ((op1 / op2) * 100).toFixed(2)  + ' %' ;break;
                                     case '+' : it2.value = op1 + op2  ;break;

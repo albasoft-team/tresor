@@ -18,26 +18,20 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                     ];
        $scope.form = {}; var nomcomp ='', nomaxe = '';
         $scope.analyser = function (form) {
-            console.log(form);
             nomcomp = form.composant.split('|')[1];
             nomaxe = form.axe.split('|')[1];
             analyseService.postData(form)
                 .then(function (response) {
-                    // console.log($scope.data);
-                    console.log(response);
                      $scope.results =response[1];
                     angular.forEach(response[0], function (it) {
                        for (var i = 0 ; i < $scope.data.length ; i++) {
                            if ($scope.data[i]['hc-key'] == it.hc_key) {
-                               // console.log(it.hc_key);
                                $scope.data[i]['value'] = it.value;
                                $scope.data[i]['drilldown'] = it.name;
                                $scope.data[i]['fils'] = it.fils;
                            }
                        }
                     });
-                     console.log($scope.data);
-                     console.log($scope.results);
                     $scope.initialyze($scope.data, form);
                 })
 

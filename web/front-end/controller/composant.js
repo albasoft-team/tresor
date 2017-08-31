@@ -9,7 +9,6 @@ vusalbaApp.controller('composantController',['$scope','$rootScope','composantSer
         composantService.getAll()
             .then(function (response) {
                 _hide(loading);
-                console.log(response);
                 // if (response.data) {
                 //     $scope.allComposants = response.data;
                 // }
@@ -50,7 +49,6 @@ vusalbaApp.controller('composantController',['$scope','$rootScope','composantSer
         composantService.createEntity()
             .then(function (response) {
                 _hide(loadind);
-                console.log(response);
             }, function (msg) {
                 alert(msg);
             })

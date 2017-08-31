@@ -10,7 +10,6 @@ vusalbaApp.service('enterDataService', function ($http, $q) {
             }else {
                 $http.get(Routing.generate('enter_data'))
                     .then(function (response) {
-                        console.log(response);
                         factory.data = response;
                         deferred.resolve(factory.data);
                     }, function (response) {
