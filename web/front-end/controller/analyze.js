@@ -112,7 +112,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                         },
                                         yAxis: {
                                             title: {
-                                                text: nomaxe + ' (en million)'
+                                                text: nomaxe + ' (en millions)'
                                             }
 
                                         },
