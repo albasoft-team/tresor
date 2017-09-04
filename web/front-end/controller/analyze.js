@@ -18,7 +18,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                     ];
        $scope.form = {}; var nomcomp ='', nomaxe = '';
         $scope.analyser = function (form) {
-            console.log(form);
+            // console.log(form);
             // if (form.dateDebut > form.dateFin) {
             //     $('#erreurDate').css({
             //         'display' : 'block'
@@ -29,6 +29,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
             analyseService.postData(form)
                 .then(function (response) {
                      $scope.results =response[1];
+                     console.log(response[0]);
                     angular.forEach(response[0], function (it) {
                        for (var i = 0 ; i < $scope.data.length ; i++) {
                            if ($scope.data[i]['hc-key'] == it.hc_key) {
@@ -38,6 +39,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                            }
                        }
                     });
+                    console.log($scope.data);
                     $scope.initialyze($scope.data, form);
                 })
 
@@ -68,10 +70,11 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                     $scope.nameofpoint = e.point.name;
                                                     angular.forEach($scope.results, function (it) {
                                                         if (it.parent !== null && it.parent == e.point.name) {
-                                                            var isdrilldown = it.level == form.level ? false : true
+                                                            var isdrilldown = it.level == form.level ? false : true;
+                                                            console.log(it.valeurAxe / 1000000);
                                                             drilldown.push({
                                                                 name : it.name,
-                                                                y : it.valeurAxe,
+                                                                y : it.valeurAxe / 1000000,
                                                                 drilldown : isdrilldown
                                                             })
                                                         }
@@ -99,17 +102,17 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                             }
                                         },
                                         title: {
-                                            text: 'Postes comptables de la région de '+ e.point.name
+                                            text: 'Répertoire des '+ nomcomp
                                         },
                                         xAxis: {
                                             type: 'category',
                                             title: {
-                                                text : nomaxe
+                                                text : 'Postes comptables de la région de '+e.point.name
                                             }
                                         },
                                         yAxis: {
                                             title: {
-                                                text: nomcomp
+                                                text: nomaxe + ' (en million)'
                                             }
 
                                         },
@@ -156,7 +159,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                             var isdrilldown = it.level == form.level ? false : true
                                                             drilldown.push({
                                                                 name : it.name,
-                                                                y : it.valeurAxe,
+                                                                y : it.valeurAxe / 1000000,
                                                                 drilldown : isdrilldown
                                                             })
                                                         }
@@ -208,11 +211,6 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                         drilldown : {
                                             // series : $scope.allfils
                                             series : []
-                                        }
-                                    })
-                                    Highcharts.setOptions({
-                                        lang: {
-                                            drillUpText: 'Retour'
                                         }
                                     });
                                 }

@@ -132,7 +132,7 @@ class analyzeController extends Controller
                         $isdrilldown = $list['level'] == $niveau ? false : true;
                         array_push($fils, array(
                             'name' => $list['name'],
-                            'y' => $list['valeurAxe'],
+                            'y' => $list['valeurAxe'] / 1000000,
                             'drilldown' => $isdrilldown
                         ));
                     }
