@@ -56,13 +56,13 @@ class analyzeController extends Controller
 //        $dateDebut = $data['dateDebut'];
 //        $dateDebut = $data['dateFin'];
         $em = $this->getDoctrine()->getManager();
-        $comp = $em->getRepository('VueBundle:Composant')->find(intval($composant));
+        $comp = $em->getRepository('VueBundle:Composant')->find($composant);
         $results = $em->getRepository('VueBundle:InputTable')
                     ->findBy(array('composant' => $comp));
         $arrayResults = [];
 
         foreach ($results as $result) {
-            if ($result->getNode()->getLevel() == intval($niveau)) {
+            if ($result->getNode()->getLevel() == $niveau) {
                 array_push($arrayResults, array(
                     'tags' => $result->getTags(),
                     'composant' => $comp->getId(),
@@ -72,6 +72,7 @@ class analyzeController extends Controller
         }
         $arrayNodes = [];
         $listNoeud = [];
+       // $listNoeuds = [];
        foreach ($arrayResults as $result) {
            $node = $em->getRepository('VueBundle:Node')->find($result['node']);
            $jsonobject = json_decode($result['tags']);
@@ -83,8 +84,19 @@ class analyzeController extends Controller
             }
             $this->constructList($node, $listNoeud, $valeurAxe);
 //            $this->getResultData($listNoeud);
+//bricolage
+          for ($i= 0 ; $i < count($listNoeud) - 1 ; $i++) {
+               for ($j= 0 ; $j < count($listNoeud) - 1 ; $j++) {
+                   if ($i!=$j) {
+                       if ($listNoeud[$i]['node'] == $listNoeud[$j]['node']) {
+                           $listNoeud[$i]['valeurAxe'] += $listNoeud[$j]['valeurAxe'];
+                           $listNoeud[$j]['valeurAxe']=0;
+                       }
+                   }
+               }
+           }
        }
-        $response = $this->getDataSource($listNoeud, $niveau, $composant);
+        $response = $this->getDataSource($listNoeud, $niveau, $composant,$axe);
         $serializer = $this->get('serializer');
 
         $arraResults = $serializer->normalize($response);
@@ -103,7 +115,7 @@ class analyzeController extends Controller
 
         return new JsonResponse($arraResults);
     }
-    private function getDataSource($listNoeud = array(), $niveau, $composant) {
+    private function getDataSource($listNoeud = array(), $niveau, $composant,$axe) {
         $datasource  = [];
         foreach ($listNoeud as $listnoeud) {
             $keyregion = '';
@@ -127,20 +139,25 @@ class analyzeController extends Controller
             if ($keyregion !== '') {
 //                $this->construtDatasource($listNoeud, $listnoeud['name'], $listnoeud['valeurAxe'], $keyregion, $datasource);
                 $fils = array();
+                $parentaxevalue=0;
                 foreach ($listNoeud as $list) {
                     if ($list['parent'] !== null && $list['parent'] == $listnoeud['name']) {
                         $isdrilldown = $list['level'] == $niveau ? false : true;
+                        if ($list['valeurAxe'] > 0) {
                         array_push($fils, array(
                             'name' => $list['name'],
-                            'y' => $list['valeurAxe'] / 1000000,
+                            'y' => ($axe == 'NbCheques') ? $list['valeurAxe'] : $list['valeurAxe'] / 1000000,
                             'drilldown' => $isdrilldown
                         ));
+                        $parentaxevalue += $list['valeurAxe'];
+                    }
                     }
                 }
+
                 array_push($datasource, array(
                     'hc_key' => $keyregion,
                     'name' => $listnoeud['name'],
-                    'value' => $listnoeud['valeurAxe'],
+                    'value' => ($axe=='NbCheques')?$parentaxevalue: $parentaxevalue / 1000000,
                     'fils' => $fils
                 ));
             }
@@ -189,20 +206,19 @@ class analyzeController extends Controller
     private function constructList(Node $node, &$listNoeud, $valeurAxe) {
         $exist = false;
         for ($i= 0 ; $i < count($listNoeud) - 1 ; $i++) {
-            if ($listNoeud[$i]['node'] == $node->getId()) {
+            if ($listNoeud[$i]['node'] == $node->getId()){
                 $exist = true;
-                $listNoeud[$i]['valeurAxe'] = intval($listNoeud[$i]['valeurAxe']) + intval($valeurAxe);
-
+                $listNoeud[$i]['valeurAxe'] += $valeurAxe;
             }
         }
         if ($exist == false) {
-            if (intval($valeurAxe) > 0) {
+            if ($valeurAxe > 0) {
                 array_push($listNoeud, array(
                     'node' => $node->getId(),
                     'name' => $node->getName(),
                     'level' => $node->getLevel(),
                     'parent' => $node->getParent() ? $node->getParent()->getName() : null,
-                    'valeurAxe' => intval($valeurAxe)
+                    'valeurAxe' => $valeurAxe
                 ));
             }
 

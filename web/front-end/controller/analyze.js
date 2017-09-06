@@ -16,20 +16,24 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                     ['sn-1181', 0],
                     ['sn-lg', 0]
                     ];
-       $scope.form = {}; var nomcomp ='', nomaxe = '';
+       $scope.form = {}; var nomcomp ='', nomaxe = '', divis=1;
         $scope.analyser = function (form) {
-            // console.log(form);
+             //console.log(form);
             // if (form.dateDebut > form.dateFin) {
             //     $('#erreurDate').css({
             //         'display' : 'block'
             //     })
             // }
+
             nomcomp = form.composant.split('|')[1];
             nomaxe = form.axe.split('|')[1];
+            nomaxe=(nomaxe=='Nb cheques')?nomaxe :nomaxe+ ' (en millions)';
+            divis=(nomaxe=='Nb cheques')?0.000001 :1000000;
+            console.log('divis='+divis);
             analyseService.postData(form)
                 .then(function (response) {
                      $scope.results =response[1];
-                     console.log(response[0]);
+                     console.log(response);
                     angular.forEach(response[0], function (it) {
                        for (var i = 0 ; i < $scope.data.length ; i++) {
                            if ($scope.data[i]['hc-key'] == it.hc_key) {
@@ -71,10 +75,10 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                     angular.forEach($scope.results, function (it) {
                                                         if (it.parent !== null && it.parent == e.point.name) {
                                                             var isdrilldown = it.level == form.level ? false : true;
-                                                            console.log(it.valeurAxe / 1000000);
+                                                            console.log(it.valeurAxe / divis);
                                                             drilldown.push({
                                                                 name : it.name,
-                                                                y : it.valeurAxe / 1000000,
+                                                                y : it.valeurAxe/divis,
                                                                 drilldown : isdrilldown
                                                             })
                                                         }
@@ -112,7 +116,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                         },
                                         yAxis: {
                                             title: {
-                                                text: nomaxe + ' (en millions)'
+                                                text: nomaxe
                                             }
 
                                         },
@@ -159,7 +163,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                             var isdrilldown = it.level == form.level ? false : true
                                                             drilldown.push({
                                                                 name : it.name,
-                                                                y : it.valeurAxe / 1000000,
+                                                                y : it.valeurAxe,
                                                                 drilldown : isdrilldown
                                                             })
                                                         }
