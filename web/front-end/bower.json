@@ -22,6 +22,7 @@
     "bs-select": "^1.5.0",
     "angular-xeditable": "^0.8.0",
     "jquery-mask-plugin": "^1.14.11",
-    "highcharts": "^5.0.14"
+    "highcharts": "^5.0.14",
+    "angular-loading-spinner": "^0.0.3"
   }
 }

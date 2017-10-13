@@ -53,12 +53,19 @@ class analyzeController extends Controller
         $composant =  explode('|', $data['composant'])[0];
         $axe = explode('|',$data['axe'])[0];
         $niveau = $data['level'];
-//        $dateDebut = $data['dateDebut'];
-//        $dateDebut = $data['dateFin'];
+        $dateDebut = $data['startDate'];
+        $dateFin = $data['endDate'];
+        $startDate = explode('/', $dateDebut);
+        $endDate = explode('/', $dateFin);
+        $str_startDate = $startDate[2] . $startDate[1] . $startDate[0] ;
+        $str_endDate = $endDate[2] . $endDate[1] . $endDate[0] ;
+
         $em = $this->getDoctrine()->getManager();
         $comp = $em->getRepository('VueBundle:Composant')->find($composant);
-        $results = $em->getRepository('VueBundle:InputTable')
-                    ->findBy(array('composant' => $comp));
+//        $results = $em->getRepository('VueBundle:InputTable')
+//                    ->findBy(array('composant' => $comp));
+        $results = $this->getDoctrine()->getRepository('VueBundle:InputTable')
+                        ->getResultByStartAndEndDate($comp,$str_startDate, $str_endDate);
         $arrayResults = [];
 
         foreach ($results as $result) {

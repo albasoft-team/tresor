@@ -25,6 +25,7 @@
         <link rel="stylesheet" href="{{ asset('front-end/plugins/datepicker/datepicker3.css') }}">
         <link rel="stylesheet" href="{{ asset('front-end/plugins/daterangepicker/daterangepicker.css') }}">
         <link rel="stylesheet" href="{{ asset('front-end/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('front-end/plugins/datepicker/css/formValidation.min.css') }}">
         <link rel="stylesheet" href="{{ asset('front-end/dist/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('bundles/vue/css/mystyle.css') }}">
         <link rel="stylesheet" href="{{ asset('front-end/bower_components/angular-xeditable/dist/css/xeditable.min.css') }}">
@@ -193,6 +194,7 @@
         <script src="{{ asset('front-end/plugins/knob/jquery.knob.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
         <script src="{{ asset('front-end/plugins/daterangepicker/daterangepicker.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js"></script>
         <script src="{{ asset('front-end/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
         <script src="{{ asset('front-end/plugins/datepicker/locales/bootstrap-datepicker.fr.js') }}"></script>
         <script src="{{ asset('front-end/plugins/colorpicker/bootstrap-colorpicker.min.js') }}"></script>
@@ -214,12 +216,22 @@
         <script src="{{ asset('front-end/node_modules/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
         <script src="{{ asset('front-end/bower_components/highcharts/modules/drilldown.js') }}"></script>
 
+
+
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
         <script src="{{ asset('front-end/ajax/ajax.js') }}"></script>
         <script src="{{ asset('front-end/ajax/function.js') }}"></script>
         <script src="{{ asset('front-end/bower_components/angular/angular.min.js') }}"></script>
+        <!--Angular loading spinner-->
+        <script src="{{ asset('front-end/bower_components/spin.js/spin.js') }}"></script>
+        <script src="{{ asset('front-end/bower_components/angular-spinner/angular-spinner.min.js') }}"></script>
+        <script src="{{ asset('front-end/bower_components/angular-loading-spinner/angular-loading-spinner.js') }}"></script>
+        <script src="{{ asset('front-end/plugins/datepicker/js/formValidation.js') }}"></script>
+        <script src="{{ asset('front-end/plugins/datepicker/js/framework/bootstrap.min.js') }}"></script>
+
         <script src="{{ asset('front-end/app.js') }}"></script>
+
 
         <script src="{{ asset('front-end/service/composant.js') }}"></script>
         <script src="{{ asset('front-end/service/enterDataService.js') }}"></script>
@@ -235,4 +247,77 @@
         <script src="{{ asset('bundles/vue/js/wizard.js') }}"></script>
         <script src="{{ asset('front-end/bower_components/angular-xeditable/dist/js/xeditable.min.js') }}"></script>
     </body>
+    <script>
+        $('#formAnalyse').formValidation({
+            framework: 'bootstrap',
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                startDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Svp veillez entrer une date de d' / 'arrviée'
+                        },
+                        date: {
+                            format: 'DD/MM/YYYY',
+                            max: 'endDate',
+                            message: 'Veillez saisire une date correcte'
+                        }
+                    }
+                },
+                endDate: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Svp veillez entrer une date de départ'
+                        },
+                        date: {
+                            format: 'DD/MM/YYYY',
+                            min: 'startDate',
+                            message: 'La date de départ doit etre superieure ou égale à la date d' / 'arrivée'
+                        }
+                    }
+                },
+                composant: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Veillez remplir ce champ'
+                        }
+                    }
+                },
+                axe: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Veillez remplir ce champ'
+                        }
+                    }
+                },
+                niveau: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Veillez remplir ce champ'
+                        }
+                    }
+                }
+
+            }
+        }).on('success.field.fv', function(e, data) {
+            if (data.field === 'composant' && !data.fv.isValidField('composant')) {
+                // We need to revalidate the end date
+                data.fv.revalidateField('composant');
+            }
+            if (data.field === 'axe' && !data.fv.isValidField('axe')) {
+                // We need to revalidate the end date
+                data.fv.revalidateField('axe');
+            }
+            if (data.field === 'niveau' && !data.fv.isValidField('niveau')) {
+                // We need to revalidate the end date
+                data.fv.revalidateField('niveau');
+            }
+
+
+        })
+    </script>
 </html>

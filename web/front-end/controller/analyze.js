@@ -18,22 +18,19 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                     ];
        $scope.form = {}; var nomcomp ='', nomaxe = '', divis=1;
         $scope.analyser = function (form) {
-             //console.log(form);
-            // if (form.dateDebut > form.dateFin) {
-            //     $('#erreurDate').css({
-            //         'display' : 'block'
-            //     })
-            // }
+            if ($('#chartContainer').html() !== '' && $('#pieContainer').html() !== '') {
+                $('#chartBlock').hide();
+            }
 
             nomcomp = form.composant.split('|')[1];
             nomaxe = form.axe.split('|')[1];
             nomaxe=(nomaxe=='Nb cheques')?nomaxe :nomaxe+ ' (en millions)';
             divis=(nomaxe=='Nb cheques')?0.000001 :1000000;
-            console.log('divis='+divis);
+            // console.log('divis='+divis);
             analyseService.postData(form)
                 .then(function (response) {
                      $scope.results =response[1];
-                     console.log(response);
+                     // console.log(response);
                     angular.forEach(response[0], function (it) {
                        for (var i = 0 ; i < $scope.data.length ; i++) {
                            if ($scope.data[i]['hc-key'] == it.hc_key) {
@@ -43,7 +40,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                            }
                        }
                     });
-                    console.log($scope.data);
+                    // console.log($scope.data);
                     $scope.initialyze($scope.data, form);
                 })
 
@@ -75,7 +72,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                     angular.forEach($scope.results, function (it) {
                                                         if (it.parent !== null && it.parent == e.point.name) {
                                                             var isdrilldown = it.level == form.level ? false : true;
-                                                            console.log(it.valeurAxe / divis);
+                                                            // console.log(it.valeurAxe / divis);
                                                             drilldown.push({
                                                                 name : it.name,
                                                                 y : it.valeurAxe/divis,

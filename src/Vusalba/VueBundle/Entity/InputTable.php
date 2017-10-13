@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * InputTable
  *
- * @ORM\Table(name="input_table", indexes={@ORM\Index(name="comp_inputtable_id", columns={"composant_id"}), @ORM\Index(name="node_inputtable_id", columns={"node_id"})})
- * @ORM\Entity
+ * @ORM\Table(name="input_table")
+ * @ORM\Entity(repositoryClass="Vusalba\VueBundle\Repository\InputTableRepository")
  */
 class InputTable
 {
@@ -57,6 +57,12 @@ class InputTable
      * @ORM\Column(name="dateremise", type="date", nullable=true)
      */
     private $dateremise;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="dateremise_image", type="string", length=255, nullable=true)
+     */
+    private $dateremise_image;
 
     /**
      * @var \Node
@@ -214,5 +220,21 @@ class InputTable
     public function setDateremise($dateremise)
     {
         $this->dateremise = $dateremise;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDateremiseImage()
+    {
+        return $this->dateremise_image;
+    }
+
+    /**
+     * @param string $dateremise_image
+     */
+    public function setDateremiseImage($dateremise_image)
+    {
+        $this->dateremise_image = $dateremise_image;
     }
 }
