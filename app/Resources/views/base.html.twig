@@ -39,13 +39,59 @@
                 padding: 25px;
             }
             .box{
-                margin-top: 33px;
+                margin-top: 40px;
+            }
+            @media (max-width: 600px) {
+                #blocTitleReport {
+                    padding-right: 100px !important;
+                }
+            }
+            @media (max-width: 991px) {
+                h2 {
+                    font-size: 20px;
+                }
+                #blocTtitle {
+                    margin-left: 10px !important;
+                }
+                 #blocTitleReport {
+                   padding-right: 0px !important;
+                }
+
+            }
+            @media (max-width: 1024px) {
+                h2 {
+                    font-size: 20px;
+                }
+                #blocTtitle {
+                    margin-left: 10px !important;
+                }
+                #blocTitleReport {
+                    padding-right: 0px !important;
+                }
+            }
+            @media (max-width: 1280px) {
+
+                #blocTtitle {
+                    margin-left: 5px !important;
+                }
+                #blocTitleReport {
+                    padding-right: 40px !important;
+                }
             }
         </style>
     </head>
     <body ng-app="vusalbaApp">
-    <div class="hold-transition skin-blue sidebar-mini">
 
+    <div class="hold-transition skin-blue sidebar-mini">
+        <aside class="hidden-xs" style="margin-top: -20px">
+            <a style="margin-left: 240px;" href="" class="sidebar-toggle" >
+                <img width="75" height="50" src="{{ asset('senegal.png') }}" style="padding-bottom: 5px; margin-bottom: 5px">
+            </a>
+            <a id="blocTtitle" class="sidebar-toggle" style="display: inline-block;margin-left: 100px; margin-right: auto;"><h2 class="sidebar-toggle">DIRECTION GENERALE DE LA COMPTABILITE PUBLIQUE ET DU TRESOR</h2></a>
+            <a class="pull-right sidebar-toggle">
+                <img width="65" style="padding: 2px;"  src="{{ asset('img/tresor_lg.png') }}">
+            </a>
+        </aside>
         <header class="main-header">
             <!-- Logo -->
             <a href="index2.html" class="logo">
@@ -60,15 +106,16 @@
                 <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
-
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
+
                         <!-- Messages: style can be found in dropdown.less-->
                         <!-- Notifications: style can be found in dropdown.less -->
 
                         <!-- Tasks: style can be found in dropdown.less -->
 
                         <!-- User Account: style can be found in dropdown.less -->
+                        <li id="blocTitleReport" style="font-size: 25px; padding-right: 200px"><a>Reporting en temps réel des données de SICA-STAR</a></li>
                         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -258,9 +305,6 @@
             fields: {
                 startDate: {
                     validators: {
-                        notEmpty: {
-                            message: 'Svp veillez entrer une date de d' / 'arrviée'
-                        },
                         date: {
                             format: 'DD/MM/YYYY',
                             max: 'endDate',
@@ -270,9 +314,6 @@
                 },
                 endDate: {
                     validators: {
-                        notEmpty: {
-                            message: 'Svp veillez entrer une date de départ'
-                        },
                         date: {
                             format: 'DD/MM/YYYY',
                             min: 'startDate',

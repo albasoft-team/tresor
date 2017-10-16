@@ -61,6 +61,9 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                     // chart.showLoading("<img src='web/img/loader.gif' alt='chargement' />");
                                     setTimeout(function () {
                                         chart.hideLoading();
+                                        if ($('#chartBlock').is(':hidden')) {
+                                            _show('chartBlock');
+                                        }
                                     }, 2000);
                                     Highcharts.chart('chartContainer', {
                                         chart: {
