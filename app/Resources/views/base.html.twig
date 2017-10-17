@@ -89,7 +89,7 @@
     <body ng-app="vusalbaApp">
 
     <div class="hold-transition skin-blue sidebar-mini">
-        <aside class="hidden-xs" style="margin-top: -20px; text-align: center">
+        <aside class="hidden-xs" style="margin-top: -20px;margin-bottom: 10px; text-align: center">
             <div style="margin-left: 240px;margin-top: 16px;" href="" class="pull-left" >
                 <img width="75"  src="{{ asset('senegal.png') }}" style="">
             </div>
@@ -121,7 +121,7 @@
                         <!-- Tasks: style can be found in dropdown.less -->
 
                         <!-- User Account: style can be found in dropdown.less -->
-                        <li id="blocTitleReport" style="font-size: 25px; padding-right: 200px"><a>Reporting temps réel des données SICA-STAR</a></li>
+                        <li id="blocTitleReport" style="font-size: 25px; padding-right: 200px"><div style="color: white">Reporting temps réel des données SICA-STAR</div></li>
                         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
