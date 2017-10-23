@@ -21,7 +21,13 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
             if ($('#chartContainer').html() !== '' && $('#pieContainer').html() !== '') {
                 $('#chartBlock').hide();
             }
+            for (var i = 0 ; i < $scope.data.length ; i++) {
+                    $scope.data[i]['hc-key'] == ''
+                    $scope.data[i]['value'] = 0;
+                    $scope.data[i]['drilldown'] = '';
+                    $scope.data[i]['fils'] = [];
 
+            }
             nomcomp = form.composant.split('|')[1];
             nomaxe = form.axe.split('|')[1];
             nomaxe=(nomaxe=='Nb cheques')?nomaxe :nomaxe+ ' (en millions)';
@@ -30,7 +36,6 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
             analyseService.postData(form)
                 .then(function (response) {
                      $scope.results =response[1];
-                     // console.log(response);
                     angular.forEach(response[0], function (it) {
                        for (var i = 0 ; i < $scope.data.length ; i++) {
                            if ($scope.data[i]['hc-key'] == it.hc_key) {
@@ -46,6 +51,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
 
         };
             $scope.initialyze = function (donnees, form) {
+
                 $scope.nameofpoint = '';
 
                 Highcharts.mapChart('container', {
@@ -262,6 +268,8 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                         }
                     }]
                 });
+
+
             };
             $scope.initialyze($scope.data, $scope.form);
         if (_getHtmlValue() !== 'container') {
