@@ -1,4 +1,4 @@
-<form role="form" method="post" id="frmUserAdd">
+<form role="form" method="post" id="frmUserAdd" enctype="multipart/form-data">
     <div class="alert alert-danger" id="flashErrorFrom" hidden="hidden">{{ form_errors(form) }}</div>
 
     <div class="form-group">
@@ -26,11 +26,15 @@
         {#{{ form_errors(form.profiles) }}#}
         {#{{ form_widget(form.profiles, {'attr': {'class': 'form-control'} }) }}#}
     {#</div>#}
-
+    <div class="form-group">
+        <label for="">Image</label>
+        {{ form_errors(form.file) }}
+        {{ form_widget(form.file, {'attr': {'class': 'form-control'} }) }}
+    </div>
     {{ form_widget(form._token) }}
     <div class="form-group">
     </div>
-    <input  class="btn btn-sm btn-success" value="Ajouter" onclick="addUser()">
+    <button type="submit"  class="btn btn-sm btn-success" >Ajouter</button>
     <img src="{{ asset('img/minload.gif') }}" alt="loading" id="loadingUser" hidden="hidden">
 </form>
 
@@ -39,4 +43,30 @@
         $('#flashErrorFrom').removeAttr('hidden');
     }
     else $('#flashErrorFrom').attr('hidden', 'hidden');
+
+    $('form#frmUserAdd').submit(function(evt) {
+        evt.preventDefault();
+        _show('loadingUser');
+        $('.modal-backdrop').attr('id', 'modalClose');
+        var form = document.querySelector('form');
+        var formData = new FormData(form);
+        $.ajax({
+            url: Routing.generate('user_add'),
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                if (response.error == null) {
+                    _hide('loadingUser');
+                    _get('list_users','', 'users', 'loadingUser');
+                    $('#' + 'modalClose').removeClass('modal-backdrop fade in');
+                    if (_getHtmlValue('frmUserModal') !== '') { $('#' + 'closeuser').click();}
+                }
+
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+
+    });
 </script>

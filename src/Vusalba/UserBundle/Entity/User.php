@@ -5,6 +5,8 @@ namespace Vusalba\UserBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use Vusalba\UploadBundle\Annotation\Uploadable;
+use Vusalba\UploadBundle\Annotation\UploadableField;
 use Vusalba\VueBundle\Entity\Node;
 
 /**
@@ -12,6 +14,7 @@ use Vusalba\VueBundle\Entity\Node;
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="Vusalba\UserBundle\Repository\UserRepository")
+ * @Uploadable()
  */
 class User extends BaseUser
 {
@@ -33,7 +36,15 @@ class User extends BaseUser
      * @ORM\ManyToMany(targetEntity="Vusalba\UserBundle\Entity\Profile", cascade={"persist"})
      */
     private $profiles;
-
+    /**
+     * @var string
+     * @ORM\Column(name="filename", type="string", length=255, nullable=true)
+     */
+    private $filename;
+    /**
+     * @UploadableField(filename="filename", path="uploads")
+     */
+    private $file;
     public function __construct()
     {
         parent::__construct();
@@ -175,6 +186,38 @@ class User extends BaseUser
     public function setProfiles($profiles)
     {
         $this->profiles = $profiles;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param mixed $file
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param string $filename
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
     }
 
 

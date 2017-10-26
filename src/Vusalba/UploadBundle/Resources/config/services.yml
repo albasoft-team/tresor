@@ -1,0 +1,11 @@
+services:
+  upload.annotation_reader:
+    class: Vusalba\UploadBundle\Annotation\UploadAnnotationReader
+    arguments: ["@annotations.reader"]
+  upload.handler:
+    class: Vusalba\UploadBundle\Handler\UploadHandler
+  upload.subscriber:
+    class: Vusalba\UploadBundle\Listener\UploadSubscriber
+    arguments: ["@upload.annotation_reader", "@upload.handler"]
+    tags:
+      - { name: doctrine.event_subscriber, connection: default}

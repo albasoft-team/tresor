@@ -16,11 +16,14 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                     ['sn-1181', 0],
                     ['sn-lg', 0]
                     ];
-       $scope.form = {}; var nomcomp ='', nomaxe = '', divis=1;
+       $scope.form = {};
+       var nomcomp ='', nomaxe = '', divis=1;
+        $rootScope.postecomptabelNbCheque = [];
         $scope.analyser = function (form) {
             if ($('#chartContainer').html() !== '' && $('#pieContainer').html() !== '') {
                 $('#chartBlock').hide();
             }
+            $rootScope.postecomptabelNbCheque = [];
             for (var i = 0 ; i < $scope.data.length ; i++) {
                     $scope.data[i]['hc-key'] == ''
                     $scope.data[i]['value'] = 0;
@@ -28,6 +31,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                     $scope.data[i]['fils'] = [];
 
             }
+            $scope.listTotalMt = [];
             nomcomp = form.composant.split('|')[1];
             nomaxe = form.axe.split('|')[1];
             nomaxe=(nomaxe=='Nb cheques')?nomaxe :nomaxe+ ' (en millions)';
@@ -36,6 +40,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
             analyseService.postData(form)
                 .then(function (response) {
                      $scope.results =response[1];
+                    $scope.listTotalMt = unique(response[0]);
                     angular.forEach(response[0], function (it) {
                        for (var i = 0 ; i < $scope.data.length ; i++) {
                            if ($scope.data[i]['hc-key'] == it.hc_key) {
@@ -45,21 +50,67 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                            }
                        }
                     });
-                    // console.log($scope.data);
                     $scope.initialyze($scope.data, form);
                 })
 
         };
             $scope.initialyze = function (donnees, form) {
-
                 $scope.nameofpoint = '';
 
                 Highcharts.mapChart('container', {
                     chart: {
                         map: 'countries/sn/sn-all',
                         events: {
+                            load: function () {
+                                this.mapZoom(1, 100, 100);
+                            },
                             drilldown: function (e) {
                                 $scope.nameofpoint = e.point.name;
+                                $scope.listTotalNbChq = [];
+                                $scope.TotalNbC = [];
+                                $scope.TotalMT = [];
+                                var form2 = angular.copy(form);
+                                form2.axe = form2.axe.split('|')[0] == 'MontantTotal' ? 'NbCheques|Nb cheques' : 'MontantTotal|Montant total';
+                                $rootScope.postecomptabelNbCheque = [];
+                                analyseService.postData(form2)
+                                    .then(function (response) {
+                                        $scope.listTotalNbChq = unique(response[0]);
+                                        // console.log(e.point.hc_key);
+                                        angular.forEach($scope.listTotalNbChq, function (nb) {
+                                             if (nb.name == e.point.options.drilldown) {
+                                                $scope.TotalNbC.push(nb);
+                                            }
+                                        });
+                                        angular.forEach($scope.listTotalMt, function (mt) {
+                                            if (mt.name == e.point.options.drilldown) {
+                                                $scope.TotalMT.push(mt);
+                                            }
+                                        });
+                                        angular.forEach($scope.TotalMT[0].fils, function (filsMt) {
+                                            var obj = "";
+                                            angular.forEach($scope.TotalNbC[0].fils, function (filsNb) {
+                                                if (filsNb.name == filsMt.name) {
+                                                    if (form.axe.split('|')[0] == "MontantTotal") {
+                                                        obj = '{'
+                                                            +'"name" :"'+ filsMt.name + '",'
+                                                            +'"nbChq" :'+ filsNb.y + ','
+                                                            +'"Mtotal" :'+ filsMt.y
+                                                            +'}';
+                                                    }
+                                                    if (form.axe.split('|')[0] == "NbCheques") {
+                                                        obj = '{'
+                                                            +'"name" :"'+ filsMt.name + '",'
+                                                            +'"nbChq" :'+ filsMt.y + ','
+                                                            +'"Mtotal" :'+ filsNb.y
+                                                            +'}';
+                                                    }
+
+                                                }
+                                            });
+                                            $rootScope.postecomptabelNbCheque.push(JSON.parse(obj));
+                                        });
+                                    });
+
                                 if (!e.seriesOptions) {
                                     var chart = this;
                                     // Show the spinner
@@ -274,5 +325,18 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
             $scope.initialyze($scope.data, $scope.form);
         if (_getHtmlValue() !== 'container') {
             $('.highcharts-credits').text('');
+        }
+        var unique = function (arr) {
+            var arrResult = {};
+            for (i = 0, n = arr.length; i < n; i++) {
+                var item = arr[i];
+                arrResult[ item.hc_key + " - " + item.name ] = item;
+            }
+            var i = 0;
+            var nonDuplicatedArray = [];
+            for(var item in arrResult) {
+                nonDuplicatedArray[i++] = arrResult[item];
+            }
+            return nonDuplicatedArray;
         }
     }]);

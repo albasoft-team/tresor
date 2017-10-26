@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -40,7 +41,8 @@ class UserType extends AbstractType
                 'required' => false,
                 'empty_data' => null,
                 'preferred_choices' => array()
-            ));
+            ))
+            ->add('file', FileType::class, ['required' => false]);
 //            ->add('profiles', EntityType::class, array(
 //                'class' => 'Vusalba\UserBundle\Entity\Profile',
 //                'choice_label' => 'role'

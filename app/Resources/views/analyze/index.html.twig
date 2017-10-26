@@ -123,10 +123,30 @@
 {#</div>#}
 
     {#{% endblock %}#}
+
 {% block body %}
     <div ng-controller="analyzeController">
         <span us-spinner="{radius:30, width:8, length: 16}"></span>
-        <div id="container" style="width:100%; height:400px;"></div>
+        <div id="container" style="width:100%; height:550px;"></div>
+
+            <div class="box" ng-show="postecomptabelNbCheque.length > 0">
+                <table id="tableauResult" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Titulaire</th>
+                        <th>Nb Chèques</th>
+                        <th>Montont</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="nb in postecomptabelNbCheque">
+                        <td>[[ nb.name ]]</td>
+                        <td>[[ nb.nbChq ]]</td>
+                        <td>[[ nb.Mtotal ]]</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         <did id="chartBlock">
             <div style="margin-top: 10px" class="col-lg-6 col-md-6 col-xs-12">
                 <div class="" id="chartContainer"></div>
@@ -161,14 +181,17 @@
                 });
 
 
+
+
             };
-            $(document).ready(function () {
-                $('.select').selectpicker();
-                console.log('sfvsdf');
-                $('.highcharts-credits').text('');
-                //Date picker
+//            $(document).ready(function () {
+//                $('.select').selectpicker();
+//                console.log('sfvsdf');
+//                $('.highcharts-credits').text('');
+//                //Date picker
+//
+//
+//            });
 
-
-            });
         </script>
 {% endblock %}
