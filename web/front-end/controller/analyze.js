@@ -32,6 +32,8 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
 
             }
             $scope.listTotalMt = [];
+            $rootScope.nbChqTotal = 0 ;
+            $rootScope.MntTotal = 0 ;
             nomcomp = form.composant.split('|')[1];
             nomaxe = form.axe.split('|')[1];
             nomaxe=(nomaxe=='Nb cheques')?nomaxe :nomaxe+ ' (en millions)';
@@ -86,6 +88,18 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                 $scope.TotalMT.push(mt);
                                             }
                                         });
+
+                                        if (form.axe.split('|')[0] == "MontantTotal") {
+                                            $rootScope.nbChqTotal = lisibilite_nombre($scope.TotalNbC[0].value);
+                                            $rootScope.MntTotal = lisibilite_nombre($scope.TotalMT[0].value*1000000);
+                                        }
+                                        if (form.axe.split('|')[0] == "NbCheques") {
+                                            $rootScope.nbChqTotal = lisibilite_nombre($scope.TotalMT[0].value) ;
+                                            $rootScope.MntTotal = lisibilite_nombre($scope.TotalNbC[0].value*1000000) ;
+                                        }
+
+
+
                                         angular.forEach($scope.TotalMT[0].fils, function (filsMt) {
                                             var obj = "";
                                             angular.forEach($scope.TotalNbC[0].fils, function (filsNb) {
@@ -94,14 +108,14 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                         obj = '{'
                                                             +'"name" :"'+ filsMt.name + '",'
                                                             +'"nbChq" :'+ filsNb.y + ','
-                                                            +'"Mtotal" :'+ filsMt.y
+                                                            +'"Mtotal" :'+ filsMt.y*divis
                                                             +'}';
                                                     }
                                                     if (form.axe.split('|')[0] == "NbCheques") {
                                                         obj = '{'
                                                             +'"name" :"'+ filsMt.name + '",'
                                                             +'"nbChq" :'+ filsMt.y + ','
-                                                            +'"Mtotal" :'+ filsNb.y
+                                                            +'"Mtotal" :'+ filsNb.y*1000000
                                                             +'}';
                                                     }
 
@@ -109,6 +123,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                             });
                                             $rootScope.postecomptabelNbCheque.push(JSON.parse(obj));
                                         });
+                                       setMask();
                                     });
 
                                 if (!e.seriesOptions) {
@@ -321,10 +336,33 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                 });
 
 
+                // angular.element(document.getElementsByClassName('nombreMask')).mask('000 000 000 000 000', {reverse: true})
+                // angular.element(document.getElementsByClassName('nombreMask')).mask('#00 000 000 000 000', {reverse: true})
+                // angular.element(document.getElementsByClassName('nombreMask')).mask('##0 000 000 000 000', {reverse: true})
             };
             $scope.initialyze($scope.data, $scope.form);
         if (_getHtmlValue() !== 'container') {
             $('.highcharts-credits').text('');
+        }
+        function setMask() {
+            $('.nombreMask').mask('000 000 000 000 000', {reverse: true});
+            // $('.nombreMask').mask('#00 000 000 000 000', {reverse: true});
+            // $('.nombreMask').mask('##0 000 000 000 000', {reverse: true});
+        }
+        function lisibilite_nombre(nbr)
+        {
+            var nombre = ''+nbr;
+            var retour = '';
+            var count=0;
+            for(var i=nombre.length-1 ; i>=0 ; i--)
+            {
+                if(count!=0 && count % 3 == 0)
+                    retour = nombre[i]+' '+retour ;
+                else
+                    retour = nombre[i]+retour ;
+                count++;
+            }
+            return retour;
         }
         var unique = function (arr) {
             var arrResult = {};

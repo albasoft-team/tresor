@@ -23,6 +23,7 @@
         }
     </style>
 {% endblock %}
+
 {% block analyser %}
     <div class="box box-primary">
         <div class="box-body" ng-controller="analyzeController">
@@ -84,69 +85,41 @@
         </div>
     </div>
     {% endblock %}
-{#{% block analyze %}#}
-{#<div class="box box-primary">#}
-    {#<div class="box-body" ng-controller="analyzeController">#}
-        {#<form id="formAnalyse" class="form-inline" name="myForm" style="margin-bottom: 15px">#}
-            {#<div class="form-group col-lg-4 ">#}
-                {#<label for="numcompte">Composant à analyser:</label>#}
-                {#<select ng-model="formData.composant" class="form-control" id="numcompte" required>#}
-                    {#<option></option>#}
-                    {#{% for comp in composants %}#}
-                        {#<option value="{{ comp.id}}|{{ comp.name }}">{{ comp.name }}</option>#}
-                    {#{% endfor %}#}
-                {#</select>#}
-            {#</div>#}
-            {#<div class="form-group col-lg-3">#}
-                {#<label for="axe">Choisir un axe :</label>#}
-                {#<select  ng-model="formData.axe" class="form-control select" id="axe" required>#}
-                    {#<option></option>#}
-                    {#{% for axe in axes  %}#}
-                        {#<option class="option" value="{{ axe.code }}|{{ axe.name }}">{{ axe.name }}</option>#}
-                    {#{% endfor %}#}
-                {#</select>#}
-            {#</div>#}
-            {#<div class="form-group col-lg-4">#}
-                {#<label for="axe">Choisir un niveau</label>#}
-                {#<select  ng-model="formData.level" class="form-control select" id="axe" required>#}
-                    {#<option></option>#}
-                   {#{% for level in levels %}#}
-                       {#<option value="{{ level.niveau }}">{{ level.name }}</option>#}
-                       {#{% endfor %}#}
-                {#</select>#}
-            {#</div>#}
-            {#<div class="form-group col-lg-1">#}
-                {#<button type="button" ng-click="analyser(formData)" class="btn btn-primary">Analyser</button>#}
-            {#</div>#}
-        {#</form>#}
-    {#</div>#}
-{#</div>#}
-
-    {#{% endblock %}#}
 
 {% block body %}
     <div ng-controller="analyzeController">
         <span us-spinner="{radius:30, width:8, length: 16}"></span>
         <div id="container" style="width:100%; height:550px;"></div>
 
-            <div class="box" ng-show="postecomptabelNbCheque.length > 0">
+        <div class="box" style="margin-top: 10px!important;">
+            <div  class="box-body" ng-show="postecomptabelNbCheque.length > 0">
                 <table id="tableauResult" class="table table-bordered table-striped">
-                    <thead>
+                    <thead style="background-color: #3c8dbc;color: white">
                     <tr>
                         <th>Titulaire</th>
                         <th>Nb Chèques</th>
-                        <th>Montont</th>
+                        <th>Montant</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="nb in postecomptabelNbCheque">
                         <td>[[ nb.name ]]</td>
-                        <td>[[ nb.nbChq ]]</td>
-                        <td>[[ nb.Mtotal ]]</td>
+                        <td class="nombreMask text-right">[[ nb.nbChq ]]</td>
+                        <td class="nombreMask text-right">[[ nb.Mtotal ]]</td>
                     </tr>
+
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <td style="font-size: 20px;" class="text-center"><strong>TOTAL GENERAL</strong></td>
+                        <td style="font-size: 20px" class="nombreMask text-right"><strong>[[nbChqTotal]]</strong></td>
+                        <td style="font-size: 20px" class="nombreMask text-right"><strong>[[MntTotal]]</strong></td>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
+        </div>
+
         <did id="chartBlock">
             <div style="margin-top: 10px" class="col-lg-6 col-md-6 col-xs-12">
                 <div class="" id="chartContainer"></div>
@@ -179,8 +152,6 @@
                 }).on('changeDate', function (e) {
                     $('#formAnalyse').formValidation('revalidateField', 'endDate');
                 });
-
-
 
 
             };
