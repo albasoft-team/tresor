@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Groupe
  *
- * @ORM\Table(name="Groupe")
+ * @ORM\Table(name="groupe")
  * @ORM\Entity(repositoryClass="Vusalba\VueBundle\Repository\GroupeRepository")
  */
 class Groupe
