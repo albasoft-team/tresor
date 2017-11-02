@@ -47,15 +47,15 @@
                     <label for="numcompte">Composant à analyser:</label>
                     <select title="Aucune sélection" ng-model="formData.composant"  name="composant"  class="selectpicker" id="numcompte" required>
                         <option data-hidden="true"></option>
-                        {% for grp in groupes %}
-                            {% if grp.composants.count > 0 %}
-                                <optgroup label="{{ grp.name }}">
-                                    {% for comp in grp.composants %}
-                                        <option style="color: black" value="{{ comp.id}}|{{ comp.name }}">{{ comp.name }}</option>
-                                    {% endfor %}
-                                </optgroup>
-                            {% endif %}
-                        {% endfor %}
+                        {#{% for grp in groupes %}#}
+                            {#{% if grp.composants.count > 0 %}#}
+                                {#<optgroup label="{{ grp.name }}">#}
+                                    {#{% for comp in grp.composants %}#}
+                                        {#<option style="color: black" value="{{ comp.id}}|{{ comp.name }}">{{ comp.name }}</option>#}
+                                    {#{% endfor %}#}
+                                {#</optgroup>#}
+                            {#{% endif %}#}
+                        {#{% endfor %}#}
                     </select>
                 </div>
                 <div class="form-group acmpAxeLev" id="axeId">
