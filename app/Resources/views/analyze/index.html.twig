@@ -60,20 +60,20 @@
                 </div>
                 <div class="form-group acmpAxeLev" id="axeId">
                     <label for="axe">Choisir un axe :</label>
-                    {#<select title="Aucune sélection" ng-model="formData.axe" name="axe"  class="selectpicker" id="axe" required>#}
-                        {#<option></option>#}
-                        {#{% for axe in axes  %}#}
-                            {#<option style="color: black" class="option" value="{{ axe.code }}|{{ axe.name }}">{{ axe.name }}</option>#}
-                        {#{% endfor %}#}
-                    {#</select>#}
+                    <select title="Aucune sélection" ng-model="formData.axe" name="axe"  class="selectpicker" id="axe" required>
+                        <option></option>
+                        {% for axe in axes  %}
+                            <option style="color: black" class="option" value="{{ axe.code }}|{{ axe.name }}">{{ axe.name }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="form-group acmpAxeLev" id="LevelId">
                     <label for="axe">Choisir un niveau</label>
                     <select title="Aucune sélection"  ng-model="formData.level" name="niveau"  class="selectpicker" id="axe" required>
                         <option></option>
-                        {% for level in levels %}
-                            <option style="color: black" value="{{ level.niveau }}">{{ level.name }}</option>
-                        {% endfor %}
+                        {#{% for level in levels %}#}
+                            {#<option style="color: black" value="{{ level.niveau }}">{{ level.name }}</option>#}
+                        {#{% endfor %}#}
                     </select>
                 </div>
                 <div class="form-group">
