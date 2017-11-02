@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * InputTable
  *
- * @ORM\Table(name="input_table")
+ * @ORM\Table(name="input_table", indexes={@ORM\Index(name="IDX_4ED747F27F3310E7", columns={"composant_id"}), @ORM\Index(name="IDX_4ED747F2460D9FD7", columns={"node_id"})})
  * @ORM\Entity(repositoryClass="Vusalba\VueBundle\Repository\InputTableRepository")
  */
 class InputTable
@@ -38,31 +38,23 @@ class InputTable
     /**
      * @var float
      *
-     * @ORM\Column(name="NbCheques", type="float", precision=10, scale=0, nullable=true)
+     * @ORM\Column(name="NombreTotal", type="float", precision=10, scale=0, nullable=true)
      */
-    private $nbcheques;
+    private $nombretotal;
 
-    /**
-     * @var \Composant
-     *
-     * @ORM\ManyToOne(targetEntity="Composant")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="composant_id", referencedColumnName="id")
-     * })
-     */
-    private $composant;
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="dateremise", type="date", nullable=true)
      */
     private $dateremise;
+
     /**
      * @var string
      *
      * @ORM\Column(name="dateremise_image", type="string", length=255, nullable=true)
      */
-    private $dateremise_image;
+    private $dateremiseImage;
 
     /**
      * @var \Node
@@ -73,6 +65,16 @@ class InputTable
      * })
      */
     private $node;
+
+    /**
+     * @var \Composant
+     *
+     * @ORM\ManyToOne(targetEntity="Composant")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="composant_id", referencedColumnName="id")
+     * })
+     */
+    private $composant;
 
 
 
@@ -134,52 +136,53 @@ class InputTable
         return $this->montanttotal;
     }
 
+
     /**
-     * Set nbcheques
+     * Set dateremise
      *
-     * @param float $nbcheques
+     * @param \DateTime $dateremise
      *
      * @return InputTable
      */
-    public function setNbcheques($nbcheques)
+    public function setDateremise($dateremise)
     {
-        $this->nbcheques = $nbcheques;
+        $this->dateremise = $dateremise;
 
         return $this;
     }
 
     /**
-     * Get nbcheques
+     * Get dateremise
      *
-     * @return float
+     * @return \DateTime
      */
-    public function getNbcheques()
+    public function getDateremise()
     {
-        return $this->nbcheques;
+        return $this->dateremise;
     }
 
     /**
-     * Set composant
+     * Set dateremiseImage
      *
-     * @param \Vusalba\VueBundle\Entity\Composant $composant
+     * @param string $dateremiseImage
      *
      * @return InputTable
      */
-    public function setComposant(\Vusalba\VueBundle\Entity\Composant $composant = null)
+    public function setDateremiseImage($dateremiseImage)
     {
-        $this->composant = $composant;
+        $this->dateremiseImage = $dateremiseImage;
 
         return $this;
     }
 
     /**
-     * Get composant
+     * Get dateremiseImage
      *
-     * @return \Vusalba\VueBundle\Entity\Composant
+     * @return string
      */
-    public function getComposant()
+    public function getDateremiseImage()
     {
-        return $this->composant;
+        return $this->dateremiseImage;
     }
 
     /**
@@ -207,34 +210,42 @@ class InputTable
     }
 
     /**
-     * @return \DateTime
+     * Set composant
+     *
+     * @param \Vusalba\VueBundle\Entity\Composant $composant
+     *
+     * @return InputTable
      */
-    public function getDateremise()
+    public function setComposant(\Vusalba\VueBundle\Entity\Composant $composant = null)
     {
-        return $this->dateremise;
+        $this->composant = $composant;
+
+        return $this;
     }
 
     /**
-     * @param \DateTime $dateremise
+     * Get composant
+     *
+     * @return \Vusalba\VueBundle\Entity\Composant
      */
-    public function setDateremise($dateremise)
+    public function getComposant()
     {
-        $this->dateremise = $dateremise;
+        return $this->composant;
     }
 
-    /**
-     * @return string
-     */
-    public function getDateremiseImage()
-    {
-        return $this->dateremise_image;
-    }
+   /**
+    * @return float
+    */
+   public function getNombretotal()
+   {
+      return $this->nombretotal;
+   }
 
-    /**
-     * @param string $dateremise_image
-     */
-    public function setDateremiseImage($dateremise_image)
-    {
-        $this->dateremise_image = $dateremise_image;
-    }
+   /**
+    * @param float $nombretotal
+    */
+   public function setNombretotal($nombretotal)
+   {
+      $this->nombretotal = $nombretotal;
+   }
 }

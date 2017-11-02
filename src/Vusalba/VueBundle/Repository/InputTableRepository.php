@@ -15,8 +15,8 @@ class InputTableRepository extends \Doctrine\ORM\EntityRepository
 
                 $query = $this->createQueryBuilder('input_table')
                                 ->where('input_table.composant =:comp')
-                                ->andWhere('input_table.dateremise_image >= :startDate ')
-                                ->andWhere('input_table.dateremise_image <= :enddate')
+                                ->andWhere('input_table.dateremiseImage >= :startDate ')
+                                ->andWhere('input_table.dateremiseImage <= :enddate')
                                 ->setParameter('comp',$composant)
                                 ->setParameter('startDate',$startDate)
                                 ->setParameter('enddate',$enddate)

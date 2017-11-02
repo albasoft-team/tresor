@@ -49,14 +49,14 @@
                     </div>
                 </div>
             </div>
-            {#<div class="row">#}
-                {#<div id="groupeComp" class="col-md-4">#}
-                    {#<img style="width: 15%; margin-left: auto; margin-right: auto; display: block" src="{{ asset('img/ajax-loader.gif') }}" alt="loading"  id="minloadGroupeComp">#}
-                {#</div>#}
+            <div class="row">
+                <div id="groupeComp" class="col-md-4">
+                    <img style="width: 15%; margin-left: auto; margin-right: auto; display: block" src="{{ asset('img/ajax-loader.gif') }}" alt="loading"  id="minloadGroupeComp">
+                </div>
                 {#<div id="groupeAxe" class="col-md-4">#}
                     {#<img style="width: 15%; margin-left: auto; margin-right: auto; display: block" src="{{ asset('img/ajax-loader.gif') }}" alt="loading"  id="minloadGroupeAxe">#}
                 {#</div>#}
-            {#</div>#}
+            </div>
             <!-- /.row -->
         </div>
     </div>
@@ -144,7 +144,7 @@
                         <li><a href="#tab_2" onclick="_get('list_axe','','axes','loadingaxe')" data-toggle="tab">Axes</a></li>
                         <li><a href="#tab_3" onclick="_get('list_node','','nodes','loadingnoeud')" data-toggle="tab">Noeuds</a></li>
                         <li><a href="#tab_4" onclick="_get('list_level','','levels','loadinglevel')" data-toggle="tab">Niveaux</a></li>
-                        {#<li><a href="#tab_5" onclick="_get('list_group','','groupComp','loadingGroupComp')" data-toggle="tab">Groupe de composants</a></li>#}
+                        <li><a href="#tab_5" onclick="_get('list_group','','groupComp','loadingGroupComp')" data-toggle="tab">Groupe de composants</a></li>
                         {#<li><a href="#tab_6" onclick="_get('list_axegroup','','groupAxe','loadingGroupAxe')" data-toggle="tab">Groupe d'axes</a></li>#}
                     </ul>
                     <div class="tab-content">
@@ -199,18 +199,18 @@
                                 <!-- /.box-body -->
                             </div>
                         </div>
-                        {#<div class="tab-pane" id="tab_5">#}
-                            {#<div class="box">#}
-                                {#<div class="box-header">#}
-                                    {#<h3 class="box-title">Liste des groupes de composants</h3>#}
-                                {#</div>#}
-                                {#<!-- /.box-header -->#}
-                                {#<div class="box-body" id="groupComp">#}
-                                {#</div>#}
-                                {#<img style="width: 10%; margin-left: auto; margin-right: auto; display: block" src="{{ asset('img/ajax-loader.gif') }}" alt="loading" id="loadingGroupComp">#}
-                                {#<!-- /.box-body -->#}
-                            {#</div>#}
-                        {#</div>#}
+                        <div class="tab-pane" id="tab_5">
+                            <div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Liste des groupes de composants</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body" id="groupComp">
+                                </div>
+                                <img style="width: 10%; margin-left: auto; margin-right: auto; display: block" src="{{ asset('img/ajax-loader.gif') }}" alt="loading" id="loadingGroupComp">
+                                <!-- /.box-body -->
+                            </div>
+                        </div>
                          {#<div class="tab-pane" id="tab_6">#}
                             {#<div class="box">#}
                                 {#<div class="box-header">#}

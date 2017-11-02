@@ -212,7 +212,8 @@ function générateAll() {
         success : function (response) {
             $('#loader').css('display', 'none');
             // $('#finalId').css('display', 'none');
-            window.location.href = Routing.generate('enter_index');
+          console.log(response);
+            // window.location.href = Routing.generate('enter_index');
         },
         error : function (response) {
             alert("Erreur lors du traitement");

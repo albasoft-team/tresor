@@ -333,11 +333,12 @@ class AdminController extends Controller
      * @Method("POST")
      */
     public function updateInputTable(Request $request) {
-
+       $axes = $this->getAxisColumn();
         $inputtables = $this->getInputTables();
         $newAxes = $this->getNewAxe();
         $newComps = $this->getNewComposant();
         $newNodes = $this->getNewNode();
+        $allnodes = $this->getNodeScoped();
         $em = $this->getDoctrine()->getManager();
         if (count($newAxes) > 0) {
             foreach ($inputtables as $inputtable) {
@@ -361,34 +362,28 @@ class AdminController extends Controller
         if (count($newComps) > 0) {
             foreach ($newComps as $comp) {
                 $nodeID = '';
-                foreach ($inputtables as $inputtable) {
-                    $jsonTags = json_decode($inputtable->getTags());
-                    $jsonTags->compId = $comp['composant_id'];
-                    $jsonTags->compName = $comp['name'];
-                    foreach ($jsonTags->axeValues as $value) {
-                        $value->value = 0;
-                    }
-                    if ($nodeID == '') {
-                        $table = Constante::getLastInput($conn);
-                        foreach ($table as $value) {
-                            $jsonTags->id = $value['id'] + 1;
-                        }
-                    }
-                    if ($nodeID !=='' && $nodeID !== $inputtable->getNode()->getId()) {
-                        $jsonTags->id = $conn->lastInsertId()+1;
-                    }
-                    $conn->insert('input_table', array(
-                        'composant_id' => $comp['composant_id'],
-                        'tags' => json_encode($jsonTags),
-                        'node_id' => $inputtable->getNode()->getId()
-                    ));
-                    $nodeID = $inputtable->getNode()->getId();
-
+               foreach ($allnodes as $allnode) {
+                  $json = $this->getJsonString($axes, $comp);
+                  $jsonTags = json_decode($json);
+                 if ($nodeID == '') {
+                     $table = Constante::getLastInput($conn);
+                     foreach ($table as $value) {
+                         $jsonTags->id = $value['id'] + 1;
+                     }
+                 }
+                 if ($nodeID !=='' && $nodeID !== $allnode->getId()) {
+                     $jsonTags->id = $conn->lastInsertId()+1;
+                 }
+                 $conn->insert('input_table', array(
+                     'composant_id' => $comp['composant_id'],
+                     'tags' => json_encode($jsonTags),
+                     'node_id' => $allnode->getId()
+                 ));
+                 $nodeID = $allnode->getId();
                 }
             }
         }
         if (count($newNodes) > 0) {
-
             $comps = $this->getComposants();
             $tags = [];
 
@@ -420,13 +415,41 @@ class AdminController extends Controller
                 }
             }
         }
-        $results = $em->getRepository('VueBundle:InputTable')->findAll();
-        $serializer = $this->get('serializer');
+//        $results = $em->getRepository('VueBundle:InputTable')->findAll();
+//        $serializer = $this->get('serializer');
+//
+//        $arraResults = $serializer->normalize($results);
 
-        $arraResults = $serializer->normalize($results);
+        return new JsonResponse((array("statut" => 200)));
 
-        return new JsonResponse($arraResults);
-
+    }
+    private  function getJsonString($axes, $comp)
+    {
+       $i = 0;
+       $json = "{" . '"id"'. ':' . 0 . ','.'"compId"'. ':' . $comp['composant_id'] . ',' . '"compName"' . ':"' . $comp['name'] . '","axeValues":[';
+       foreach ($axes as $axe) {
+          if ($i < count($axes) - 1 ) {
+             $json .= '{'
+                .'"name"'.':"' . $axe->getName() . '",'
+                . '"value"' . ':'. 0 .','
+                .'"code"'. ':"'.str_replace(' ','', ucwords($axe->getName())).'",'
+                .'"calculated"'. ':"'.$axe->getIscalculated().'",'
+                .'"formule"'. ':"'. $axe->getFormula()
+                .'"}' .',';
+          }
+          else {
+             $json .= '{'
+                .'"name"' . ':"' . $axe->getName() . '",'
+                . '"value"' . ':' . 0 .','
+                .'"code"'. ':"'.str_replace(' ','', ucwords($axe->getName())).'",'
+                .'"calculated"'. ':"'.$axe->getIscalculated().'",'
+                .'"formule"'. ':"'. $axe->getFormula()
+                .'"}';
+          }
+          $i++;
+       }
+       $json .=']}';
+       return $json;
     }
     private function getJson() {
         $em = $this->getDoctrine()->getManager();

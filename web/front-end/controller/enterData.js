@@ -148,6 +148,7 @@ vusalbaApp.controller('enterDataController', ['$scope','$rootScope','enterDataSe
             $('#loader').css('display', 'block');
             enterDataService.updateTable()
                 .then(function (response) {
+                    // console.log(response);
                     $('#loader').css('display', 'none');
                 }, function (msg) {
                     alert(msg);

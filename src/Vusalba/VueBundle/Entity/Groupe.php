@@ -27,14 +27,16 @@ class Groupe
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
-
+   /**
+    * @ORM\OneToMany(targetEntity="Vusalba\VueBundle\Entity\Composant", mappedBy="groupe")
+    */
+    private $composants;
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
-
 
     /**
      * Get id
@@ -93,4 +95,20 @@ class Groupe
     {
         return $this->description;
     }
+
+   /**
+    * @return mixed
+    */
+   public function getComposants()
+   {
+      return $this->composants;
+   }
+
+   /**
+    * @param mixed $composants
+    */
+   public function setComposants($composants)
+   {
+      $this->composants = $composants;
+   }
 }

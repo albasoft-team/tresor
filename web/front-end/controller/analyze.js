@@ -36,12 +36,17 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
             $rootScope.MntTotal = 0 ;
             nomcomp = form.composant.split('|')[1];
             nomaxe = form.axe.split('|')[1];
-            nomaxe=(nomaxe=='Nb cheques')?nomaxe :nomaxe+ ' (en millions)';
-            divis=(nomaxe=='Nb cheques')?0.000001 :1000000;
+            nomaxe=(nomaxe=='Nombre total')?nomaxe :nomaxe+ ' (en millions)';
+            divis=(nomaxe=='Nombre total')?0.000001 :1000000;
             // console.log('divis='+divis);
             analyseService.postData(form)
                 .then(function (response) {
+                    //console.log(response)
                      $scope.results =response[1];
+                    if (response[0] == 0 || response[1].length == 0) {
+                        alert("Il n'y a pas de données correspondantes à cette interval de dates");
+                        return;
+                    }
                     $scope.listTotalMt = unique(response[0]);
                     angular.forEach(response[0], function (it) {
                        for (var i = 0 ; i < $scope.data.length ; i++) {
@@ -72,12 +77,12 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                 $scope.TotalNbC = [];
                                 $scope.TotalMT = [];
                                 var form2 = angular.copy(form);
-                                form2.axe = form2.axe.split('|')[0] == 'MontantTotal' ? 'NbCheques|Nb cheques' : 'MontantTotal|Montant total';
+                                form2.axe = form2.axe.split('|')[0] == 'MontantTotal' ? 'NombreTotal|Nombre total' : 'MontantTotal|Montant total';
                                 $rootScope.postecomptabelNbCheque = [];
+                               // console.log(form2);
                                 analyseService.postData(form2)
                                     .then(function (response) {
                                         $scope.listTotalNbChq = unique(response[0]);
-                                        // console.log(e.point.hc_key);
                                         angular.forEach($scope.listTotalNbChq, function (nb) {
                                              if (nb.name == e.point.options.drilldown) {
                                                 $scope.TotalNbC.push(nb);
@@ -88,18 +93,14 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                 $scope.TotalMT.push(mt);
                                             }
                                         });
-
                                         if (form.axe.split('|')[0] == "MontantTotal") {
                                             $rootScope.nbChqTotal = lisibilite_nombre($scope.TotalNbC[0].value);
                                             $rootScope.MntTotal = lisibilite_nombre($scope.TotalMT[0].value*1000000);
                                         }
-                                        if (form.axe.split('|')[0] == "NbCheques") {
+                                        if (form.axe.split('|')[0] == "NombreTotal") {
                                             $rootScope.nbChqTotal = lisibilite_nombre($scope.TotalMT[0].value) ;
                                             $rootScope.MntTotal = lisibilite_nombre($scope.TotalNbC[0].value*1000000) ;
                                         }
-
-
-
                                         angular.forEach($scope.TotalMT[0].fils, function (filsMt) {
                                             var obj = "";
                                             angular.forEach($scope.TotalNbC[0].fils, function (filsNb) {
@@ -111,7 +112,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                             +'"Mtotal" :'+ filsMt.y*divis
                                                             +'}';
                                                     }
-                                                    if (form.axe.split('|')[0] == "NbCheques") {
+                                                    if (form.axe.split('|')[0] == "NombreTotal") {
                                                         obj = '{'
                                                             +'"name" :"'+ filsMt.name + '",'
                                                             +'"nbChq" :'+ filsMt.y + ','

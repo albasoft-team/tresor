@@ -37,7 +37,7 @@ class Composant
 
     /**
      * @var Groupe
-     * @ORM\ManyToOne(targetEntity="Vusalba\VueBundle\Entity\Groupe")
+     * @ORM\ManyToOne(targetEntity="Vusalba\VueBundle\Entity\Groupe", inversedBy="composants")
      * @ORM\JoinColumn(name="groupe_id", referencedColumnName="id")
      */
     private $groupe;

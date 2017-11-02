@@ -13,6 +13,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Encoder\JsonEncode;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Vusalba\VueBundle\Entity\Inputtable;
 
 /**
@@ -48,7 +51,13 @@ class EnterDataController extends Controller
                 'node' => $user->getNode()
             ));
         }
-        $serializer = $this->get('serializer');
+       $normalizer = new ObjectNormalizer();
+       $normalizer->setCircularReferenceLimit(2);
+// Add Circular reference handler
+       $normalizer->setCircularReferenceHandler(function ($object) {
+          return $object->getId();
+       });
+        $serializer = new  Serializer(array($normalizer),array(new  JsonEncode()));
         $arrayResult = $serializer->normalize($inputtales);
 
         return new JsonResponse($arrayResult);

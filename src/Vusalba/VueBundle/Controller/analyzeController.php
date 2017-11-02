@@ -36,11 +36,12 @@ class analyzeController extends Controller
         $levels = $em->getRepository('VueBundle:Level')->findBy(array(
             'scopeAnalysis' => true
         ));
-        $composants = $em->getRepository('VueBundle:Composant')->findAll();
+        $groupes = $em->getRepository('VueBundle:Groupe')->findAll();
+
         return $this->render('analyze/index.html.twig', array(
             "axes" => $axes,
             'levels' => $levels,
-            'composants' => $composants
+            'groupes' => $groupes
         ));
     }
 
@@ -85,12 +86,15 @@ class analyzeController extends Controller
         }
         $arrayNodes = [];
         $listNoeud = [];
+
        // $listNoeuds = [];
        foreach ($arrayResults as $result) {
            $node = $em->getRepository('VueBundle:Node')->find($result['node']);
            $jsonobject = json_decode($result['tags']);
            $valeurAxe = 0;
+         //  var_dump($result);
             foreach ($jsonobject->axeValues as $axeValue ) {
+            //   var_dump($axeValue);
                 if ($axeValue->code == $axe) {
                     $valeurAxe = str_replace(" ","", $axeValue->value);
                 }
@@ -158,7 +162,7 @@ class analyzeController extends Controller
                         if ($list['valeurAxe'] > 0) {
                         array_push($fils, array(
                             'name' => $list['name'],
-                            'y' => ($axe == 'NbCheques') ? $list['valeurAxe'] : $list['valeurAxe'] / 1000000,
+                            'y' => ($axe == 'NombreTotal') ? intval($list['valeurAxe']) : $list['valeurAxe'] / 1000000,
                             'drilldown' => $isdrilldown
                         ));
                         $parentaxevalue += $list['valeurAxe'];
@@ -169,7 +173,7 @@ class analyzeController extends Controller
                 array_push($datasource, array(
                     'hc_key' => $keyregion,
                     'name' => $listnoeud['name'],
-                    'value' => ($axe=='NbCheques')?$parentaxevalue: $parentaxevalue / 1000000,
+                    'value' => ($axe=='NombreTotal')?intval($parentaxevalue): $parentaxevalue / 1000000,
                     'fils' => $fils
                 ));
             }
