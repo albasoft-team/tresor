@@ -23,6 +23,9 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
             if ($('#chartContainer').html() !== '' && $('#pieContainer').html() !== '') {
                 $('#chartBlock').hide();
             }
+            if ($('#tableauSynthese').html() !== '') {
+              $('#tableauSynthese').css('display','none');
+            }
             $rootScope.postecomptabelNbCheque = [];
             for (var i = 0 ; i < $scope.data.length ; i++) {
                     $scope.data[i]['hc-key'] == ''
@@ -44,7 +47,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                     //console.log(response)
                      $scope.results =response[1];
                     if (response[0] == 0 || response[1].length == 0) {
-                        alert("Il n'y a pas de données correspondantes à cette interval de dates");
+                      $("#myModal").modal("show");
                         return;
                     }
                     $scope.listTotalMt = unique(response[0]);
@@ -125,6 +128,8 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                             $rootScope.postecomptabelNbCheque.push(JSON.parse(obj));
                                         });
                                        setMask();
+                                      $('#tableauSynthese').css('display','block');
+                                       $rootScope.titre = e.point.name;
                                     });
 
                                 if (!e.seriesOptions) {

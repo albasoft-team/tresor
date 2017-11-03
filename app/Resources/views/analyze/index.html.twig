@@ -112,7 +112,10 @@
         <span us-spinner="{radius:30, width:8, length: 16}"></span>
         <div id="container" style="width:100%; height:550px;"></div>
 
-        <div class="box" style="margin-top: 10px!important;">
+        <div id="tableauSynthese" class="box" style="margin-top: 10px!important; display: none">
+            <div class="box-header">
+                <h3 class="box-title">Tableau de synthèse des postes comptable de la région de [[titre]] </h3>
+            </div>
             <div  class="box-body" ng-show="postecomptabelNbCheque.length > 0">
                 <table id="tableauResult" class="table table-bordered table-striped">
                     <thead style="background-color: #3c8dbc;color: white">
@@ -149,7 +152,29 @@
                 <div id="pieContainer"></div>
             </div>
         </did>
+        <!-- Trigger the modal with a button -->
+        <button style="display: none;" type="button" class="btn btn-info btn-lg"  data-toggle="modal" data-target="#myModal"></button>
 
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Récupération impossible</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p></p><i class="fa fa-warning text-red"></i> <strong>Oops!</strong> il n'y a pas de données sur cet interval.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary    " data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         {#<div class="" id="chartContainer2"></div>#}
     </div>
 {% endblock %}
