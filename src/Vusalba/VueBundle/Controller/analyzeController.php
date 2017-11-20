@@ -53,7 +53,7 @@ class analyzeController extends Controller
         $data = json_decode($request->getContent(), TRUE);
         $composant =  explode('|', $data['composant'])[0];
         $axe = explode('|',$data['axe'])[0];
-        $niveau = $data['level'];
+        $niveau = explode('|',$data['level'])[0];
 
         $em = $this->getDoctrine()->getManager();
         $comp = $em->getRepository('VueBundle:Composant')->find($composant);
@@ -92,9 +92,9 @@ class analyzeController extends Controller
            $node = $em->getRepository('VueBundle:Node')->find($result['node']);
            $jsonobject = json_decode($result['tags']);
            $valeurAxe = 0;
-         //  var_dump($result);
+           //var_dump($result);
             foreach ($jsonobject->axeValues as $axeValue ) {
-            //   var_dump($axeValue);
+              // var_dump($axeValue);
                 if ($axeValue->code == $axe) {
                     $valeurAxe = str_replace(" ","", $axeValue->value);
                 }
@@ -234,6 +234,7 @@ class analyzeController extends Controller
                     'name' => $node->getName(),
                     'level' => $node->getLevel(),
                     'parent' => $node->getParent() ? $node->getParent()->getName() : null,
+                    'parentId' => $node->getParent() ? $node->getParent()->getId() : null,
                     'valeurAxe' => $valeurAxe
                 ));
             }

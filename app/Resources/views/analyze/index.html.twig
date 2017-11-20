@@ -36,6 +36,16 @@
              width: 90%!important;
             text-align: left;
         }
+        .dropdown-menu .divider {
+            display: none;
+        }
+        .tableBanque {
+            width: 100%;
+            font-weight: 600;
+        }
+        .middlealign {
+            vertical-align: middle !important;
+        }
     </style>
 {% endblock %}
 
@@ -72,7 +82,7 @@
                     <select title="Aucune sélection"  ng-model="formData.level" name="niveau"  class="selectpicker" id="axe" required>
                         <option></option>
                         {% for level in levels %}
-                            <option style="color: black" value="{{ level.niveau }}">{{ level.name }}</option>
+                            <option style="color: black" value="{{ level.niveau }}|{{ level.name }}">{{ level.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -116,26 +126,59 @@
             <div class="box-header">
                 <h3 class="box-title">Tableau de synthèse des postes comptable de la région de [[titre]] </h3>
             </div>
-            <div  class="box-body" ng-show="postecomptabelNbCheque.length > 0">
-                <table id="tableauResult" class="table table-bordered table-striped">
+            <div  class="box-body" ng-show="postecomptabelNbCheque.length > 0" ng-init="escapeQuote()">
+                <table id="tableauResult" class="table collaptable table-bordered table-striped">
                     <thead style="background-color: #3c8dbc;color: white">
-                    <tr>
-                        <th>Titulaire</th>
-                        <th>Nb Chèques</th>
-                        <th>Montant</th>
-                    </tr>
+                        <tr>
+                            <th style="width: 10px;"></th>
+                            <th>Titulaire</th>
+                            <th>Nb Chèques</th>
+                            <th>Montant</th>
+                        </tr>
                     </thead>
-                    <tbody>
-                    <tr ng-repeat="nb in postecomptabelNbCheque">
-                        <td>[[ nb.name ]]</td>
-                        <td class="nombreMask text-right">[[ nb.nbChq ]]</td>
-                        <td class="nombreMask text-right">[[ nb.Mtotal ]]</td>
-                    </tr>
+                    <tbody ng-repeat="nb in postecomptabelNbCheque" id="bodyId[[nb.id]]">
+                        <tr ng-if="nb.childrens.length > 0"  data-toggle="collapse" data-target="#demo[[nb.id]]" class="accordion-toggle">
+                            <td><button style="margin-top: -5px !important;" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
+                            <td class="middlealign">[[ nb.name ]]</td>
+                            <td class="nombreMask text-right middlealign">[[ nb.nbChq ]]</td>
+                            <td class="nombreMask text-right middlealign">[[ nb.Mtotal ]]</td>
+                        </tr>
+                        <tr ng-if="nb.childrens.length == 0">
+                            <td></td>
+                            <td class="middlealign">[[ nb.name ]]</td>
+                            <td class="nombreMask  textchild middlealign">[[ nb.nbChq ]]</td>
+                            <td class="nombreMask  textchild middlealign">[[ nb.Mtotal ]]</td>
+                        </tr>
 
+                        <tr ng-if="nb.childrens.length > 0"  class="accordian-body collapse" id="demo[[nb.id]]">
+                            <td></td>
+                            <td>
+                                <table class="tableBanque">
+                                    <tr ng-repeat="child in nb.childrens">
+                                        <td>[[child.name]]</td>
+                                    </tr>
+                                </table>
+
+                            </td>
+                            <td>
+                                <table class="tableBanque">
+                                    <tr ng-repeat="child in nb.childrens">
+                                        <td class="nombreMask text-right">[[child.nbTotal]]</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <table class="tableBanque">
+                                    <tr ng-repeat="child in nb.childrens">
+                                        <td  class="nombreMask text-right">[[child.valeur]]</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td style="font-size: 20px;" class="text-center"><strong>TOTAL GENERAL</strong></td>
+                        <td style="font-size: 20px;" class="text-center" colspan="2"><strong>TOTAL GENERAL</strong></td>
                         <td style="font-size: 20px" class="nombreMask text-right"><strong>[[nbChqTotal]]</strong></td>
                         <td style="font-size: 20px" class="nombreMask text-right"><strong>[[MntTotal]]</strong></td>
                     </tr>
@@ -175,6 +218,8 @@
 
             </div>
         </div>
+
+
         {#<div class="" id="chartContainer2"></div>#}
     </div>
 {% endblock %}

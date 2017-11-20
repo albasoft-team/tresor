@@ -13,11 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Node
 {
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="string")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     *
      */
     private $id;
 
@@ -58,7 +58,7 @@ class Node
     /**
      * Get id
      *
-     * @return int
+     * @return string
      */
     public function getId()
     {

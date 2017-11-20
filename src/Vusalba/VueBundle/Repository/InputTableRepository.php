@@ -24,4 +24,11 @@ class InputTableRepository extends \Doctrine\ORM\EntityRepository
 
                 return $query->getResult();
         }
+
+        public function findOneElement() {
+           $query = $this->createQueryBuilder('it')
+              ->setMaxResults(1)
+              ->getQuery();
+           return $query->getResult();
+        }
 }

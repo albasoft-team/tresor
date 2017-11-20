@@ -17,6 +17,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                     ['sn-lg', 0]
                     ];
        $scope.form = {};
+       $scope.parent = 0;
        var nomcomp ='', nomaxe = '', divis=1;
         $rootScope.postecomptabelNbCheque = [];
         $scope.analyser = function (form) {
@@ -41,10 +42,10 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
             nomaxe = form.axe.split('|')[1];
             nomaxe=(nomaxe=='Nombre total')?nomaxe :nomaxe+ ' (en millions)';
             divis=(nomaxe=='Nombre total')?0.000001 :1000000;
-            // console.log('divis='+divis);
+
+
             analyseService.postData(form)
                 .then(function (response) {
-                    //console.log(response)
                      $scope.results =response[1];
                     if (response[0] == 0 || response[1].length == 0) {
                       $("#myModal").modal("show");
@@ -82,10 +83,11 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                 var form2 = angular.copy(form);
                                 form2.axe = form2.axe.split('|')[0] == 'MontantTotal' ? 'NombreTotal|Nombre total' : 'MontantTotal|Montant total';
                                 $rootScope.postecomptabelNbCheque = [];
-                               // console.log(form2);
+                              $scope.formAxe = form.axe.split('|')[0] ;
                                 analyseService.postData(form2)
                                     .then(function (response) {
                                         $scope.listTotalNbChq = unique(response[0]);
+                                        $scope.resultForm = response[1];
                                         angular.forEach($scope.listTotalNbChq, function (nb) {
                                              if (nb.name == e.point.options.drilldown) {
                                                 $scope.TotalNbC.push(nb);
@@ -104,25 +106,71 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                             $rootScope.nbChqTotal = lisibilite_nombre($scope.TotalMT[0].value) ;
                                             $rootScope.MntTotal = lisibilite_nombre($scope.TotalNbC[0].value*1000000) ;
                                         }
+
                                         angular.forEach($scope.TotalMT[0].fils, function (filsMt) {
                                             var obj = "";
                                             angular.forEach($scope.TotalNbC[0].fils, function (filsNb) {
                                                 if (filsNb.name == filsMt.name) {
+                                                  var childrens = [];
+                                                  var data_id = 0;
+
                                                     if (form.axe.split('|')[0] == "MontantTotal") {
+                                                      angular.forEach($scope.results, function (it) {
+                                                        if (it.parent !== null && it.parent == filsNb.name) {
+                                                          data_id = it.parentId;
+                                                          childrens.push({
+                                                            id : it.parentId,
+                                                            name : it.name,
+                                                            valeur : (nomaxe == 'Montant total') ? it.valeurAxe/divis : ((typeof it.valeurAxe === "string") ? parseInt(it.valeurAxe) : it.valeurAxe)
+                                                          })
+                                                        }
+                                                      });
+                                                      angular.forEach($scope.resultForm, function (it2) {
+                                                        if (it2.parent !== null && it2.parent == filsNb.name) {
+                                                          angular.forEach(childrens, function (child, index) {
+                                                            if (child.name == it2.name) {
+                                                              childrens[index].nbTotal = it2.valeurAxe;
+                                                            }
+                                                          })
+                                                        }
+                                                      });
                                                         obj = '{'
+                                                            +'"id" :"'+ data_id + '",'
                                                             +'"name" :"'+ filsMt.name + '",'
                                                             +'"nbChq" :'+ filsNb.y + ','
-                                                            +'"Mtotal" :'+ filsMt.y*divis
+                                                            +'"Mtotal" :'+ filsMt.y*divis + ','
+                                                            +'"childrens" :'+ JSON.stringify(childrens)
                                                             +'}';
                                                     }
                                                     if (form.axe.split('|')[0] == "NombreTotal") {
+                                                      angular.forEach($scope.results, function (it) {
+                                                        if (it.parent !== null && it.parent == filsNb.name) {
+                                                          data_id = it.parentId;
+                                                          childrens.push({
+                                                            id : it.parentId,
+                                                            name : it.name,
+                                                            nbTotal : it.valeurAxe
+                                                          })
+                                                        }
+                                                      });
+                                                      angular.forEach($scope.resultForm, function (it2) {
+                                                        if (it2.parent !== null && it2.parent == filsNb.name) {
+                                                          angular.forEach(childrens, function (child, index) {
+                                                            if (child.name == it2.name) {
+                                                              childrens[index].valeur =(nomaxe == 'Montant total') ? it2.valeurAxe/divis : ((typeof it2.valeurAxe === "string") ? parseInt(it2.valeurAxe) : it2.valeurAxe);
+                                                            }
+                                                          })
+                                                        }
+                                                      });
+
                                                         obj = '{'
+                                                            +'"id" :"'+ data_id + '",'
                                                             +'"name" :"'+ filsMt.name + '",'
                                                             +'"nbChq" :'+ filsMt.y + ','
-                                                            +'"Mtotal" :'+ filsNb.y*1000000
+                                                            +'"Mtotal" :'+ filsNb.y*1000000 + ','
+                                                            +'"childrens" :'+ JSON.stringify(childrens)
                                                             +'}';
                                                     }
-
                                                 }
                                             });
                                             $rootScope.postecomptabelNbCheque.push(JSON.parse(obj));
@@ -130,6 +178,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                        setMask();
                                       $('#tableauSynthese').css('display','block');
                                        $rootScope.titre = e.point.name;
+
                                     });
 
                                 if (!e.seriesOptions) {
@@ -143,6 +192,11 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                             _show('chartBlock');
                                         }
                                     }, 2000);
+                                  Highcharts.setOptions({
+                                    lang: {
+                                      drillUpText: 'Retour'
+                                    }
+                                  });
                                     Highcharts.chart('chartContainer', {
                                         chart: {
                                             type: 'column',
@@ -153,10 +207,9 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                     angular.forEach($scope.results, function (it) {
                                                         if (it.parent !== null && it.parent == e.point.name) {
                                                             var isdrilldown = it.level == form.level ? false : true;
-                                                            // console.log(it.valeurAxe / divis);
                                                             drilldown.push({
                                                                 name : it.name,
-                                                                y : it.valeurAxe/divis,
+                                                                y : (nomaxe == 'Montant total') ? it.valeurAxe/divis : ((typeof it.valeurAxe === "string") ? parseInt(it.valeurAxe) : it.valeurAxe),
                                                                 drilldown : isdrilldown
                                                             })
                                                         }
@@ -172,14 +225,15 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                         var chart = this,
                                                             drilldowns  = $scope.allfils;
                                                             series = drilldowns[e.point.name];
+                                                            series.colorByPoint = true;
                                                         // Show the loading label
                                                         chart.showLoading('<i class="icon-spinner icon-spin icon-3x"></i>');
-
                                                         setTimeout(function () {
                                                             chart.hideLoading();
                                                             chart.addSeriesAsDrilldown(e.point, series);
                                                         }, 2000);
                                                     }
+
                                                 }
                                             }
                                         },
@@ -223,7 +277,13 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                         }],
                                         drilldown : {
                                             // series : $scope.allfils
-                                            series : []
+                                            series : [],
+                                          drillUpButton : {
+                                            align: "right",
+                                            verticalAlign:"top",
+                                            x:0,
+                                            y:0
+                                          }
                                         }
                                     })
                                     Highcharts.chart('pieContainer', {
@@ -241,7 +301,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                             var isdrilldown = it.level == form.level ? false : true
                                                             drilldown.push({
                                                                 name : it.name,
-                                                                y : it.valeurAxe,
+                                                                y : it.valeurAxe/divis,
                                                                 drilldown : isdrilldown
                                                             })
                                                         }
@@ -259,7 +319,6 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                         series = drilldowns[e.point.name];
                                                         // Show the loading label
                                                         chart.showLoading('<i class="icon-spinner icon-spin icon-3x"></i>');
-
                                                         setTimeout(function () {
                                                             chart.hideLoading();
                                                             chart.addSeriesAsDrilldown(e.point, series);
@@ -296,13 +355,14 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                         }
                                     });
                                 }
-                                this.setTitle(null, { text: e.point.name });
+                                // this.setTitle(null, { text: e.point.name });
                                 if (_getHtmlValue('pieContainer') !== '') {
                                     $('.highcharts-credits').text('');
                                 }
                                 if (_getHtmlValue('chartContainer') !== '') {
                                     $('.highcharts-credits').text('');
                                 }
+
                             }
                         }
                     },

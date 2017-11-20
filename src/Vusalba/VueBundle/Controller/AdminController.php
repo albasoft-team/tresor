@@ -297,6 +297,7 @@ class AdminController extends Controller
                 }
             }
             if ($exist == false) {
+//               var_dump($node->getId());
                 array_push($arrayResult, array(
                     'node_id' => $node->getId()
                 ));
@@ -453,8 +454,9 @@ class AdminController extends Controller
     }
     private function getJson() {
         $em = $this->getDoctrine()->getManager();
-        $first = $em->getRepository('VueBundle:InputTable')->find(1);
-        $allAxes = $first->getTags();
+        $first = $em->getRepository('VueBundle:InputTable')->findOneElement();
+
+        $allAxes = $first[0]->getTags();
         return $allAxes;
     }
     private function getInputTables() {
