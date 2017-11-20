@@ -132,7 +132,7 @@
                         <tr>
                             <th style="width: 10px;"></th>
                             <th>Titulaire</th>
-                            <th>Nb Chèques</th>
+                            <th>Nombre total</th>
                             <th>Montant</th>
                         </tr>
                     </thead>
@@ -146,8 +146,8 @@
                         <tr ng-if="nb.childrens.length == 0">
                             <td></td>
                             <td class="middlealign">[[ nb.name ]]</td>
-                            <td class="nombreMask  textchild middlealign">[[ nb.nbChq ]]</td>
-                            <td class="nombreMask  textchild middlealign">[[ nb.Mtotal ]]</td>
+                            <td class="nombreMask  text-right middlealign">[[ nb.nbChq ]]</td>
+                            <td class="nombreMask  text-right middlealign">[[ nb.Mtotal ]]</td>
                         </tr>
 
                         <tr ng-if="nb.childrens.length > 0"  class="accordian-body collapse" id="demo[[nb.id]]">
