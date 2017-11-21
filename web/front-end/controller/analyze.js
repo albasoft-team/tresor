@@ -206,7 +206,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                     $scope.nameofpoint = e.point.name;
                                                     angular.forEach($scope.results, function (it) {
                                                         if (it.parent !== null && it.parent == e.point.name) {
-                                                            var isdrilldown = it.level == form.level ? false : true;
+                                                            var isdrilldown = it.level == form.level.split('|')[0] ? false : true;
                                                             drilldown.push({
                                                                 name : it.name,
                                                                 y : (nomaxe == 'Montant total') ? it.valeurAxe/divis : ((typeof it.valeurAxe === "string") ? parseInt(it.valeurAxe) : it.valeurAxe),
@@ -298,7 +298,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                     $scope.nameofpoint = e.point.name;
                                                     angular.forEach($scope.results, function (it) {
                                                         if (it.parent !== null && it.parent == e.point.name) {
-                                                            var isdrilldown = it.level == form.level ? false : true
+                                                            var isdrilldown = it.level == form.level.split('|')[0] ? false : true
                                                             drilldown.push({
                                                                 name : it.name,
                                                                 y : it.valeurAxe/divis,
