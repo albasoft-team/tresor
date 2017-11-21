@@ -67,6 +67,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
         };
             $scope.initialyze = function (donnees, form) {
                 $scope.nameofpoint = '';
+                var titleAxis = '';
 
                 Highcharts.mapChart('container', {
                     chart: {
@@ -80,6 +81,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                 $scope.listTotalNbChq = [];
                                 $scope.TotalNbC = [];
                                 $scope.TotalMT = [];
+                              $scope.isdrilldown = false;
                                 var form2 = angular.copy(form);
                                 form2.axe = form2.axe.split('|')[0] == 'MontantTotal' ? 'NombreTotal|Nombre total' : 'MontantTotal|Montant total';
                                 $rootScope.postecomptabelNbCheque = [];
@@ -121,7 +123,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                           childrens.push({
                                                             id : it.parentId,
                                                             name : it.name,
-                                                            valeur : (nomaxe == 'Montant total') ? it.valeurAxe/divis : ((typeof it.valeurAxe === "string") ? parseInt(it.valeurAxe) : it.valeurAxe)
+                                                            valeur : typeof it.valeurAxe === "string" ? parseInt(it.valeurAxe) : it.valeurAxe
                                                           })
                                                         }
                                                       });
@@ -157,7 +159,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                         if (it2.parent !== null && it2.parent == filsNb.name) {
                                                           angular.forEach(childrens, function (child, index) {
                                                             if (child.name == it2.name) {
-                                                              childrens[index].valeur =(nomaxe == 'Montant total') ? it2.valeurAxe/divis : ((typeof it2.valeurAxe === "string") ? parseInt(it2.valeurAxe) : it2.valeurAxe);
+                                                              childrens[index].valeur = typeof it2.valeurAxe === "string" ? parseInt(it2.valeurAxe) : it2.valeurAxe;
                                                             }
                                                           })
                                                         }
@@ -178,6 +180,10 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                        setMask();
                                       $('#tableauSynthese').css('display','block');
                                        $rootScope.titre = e.point.name;
+
+
+                                      // $scope.isdrilldown = e.point.options.fils[0].drilldown;
+                                      //  console.log($scope.isdrilldown);
 
                                     });
 
@@ -203,14 +209,15 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                             events : {
                                                 drilldown : function (e) {
                                                     e.point.fils = {}; var drilldown = [];
+
                                                     $scope.nameofpoint = e.point.name;
                                                     angular.forEach($scope.results, function (it) {
                                                         if (it.parent !== null && it.parent == e.point.name) {
-                                                            var isdrilldown = it.level == form.level.split('|')[0] ? false : true;
+                                                          $scope.isdrilldown = it.level == form.level.split('|')[0] ? false : true;
                                                             drilldown.push({
                                                                 name : it.name,
-                                                                y : (nomaxe == 'Montant total') ? it.valeurAxe/divis : ((typeof it.valeurAxe === "string") ? parseInt(it.valeurAxe) : it.valeurAxe),
-                                                                drilldown : isdrilldown
+                                                                y : (form.axe.split('|')[1] == 'Montant total') ? it.valeurAxe/divis : ((typeof it.valeurAxe === "string") ? parseInt(it.valeurAxe) : it.valeurAxe),
+                                                                drilldown : $scope.isdrilldown
                                                             })
                                                         }
 
@@ -221,11 +228,14 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                                             +'}}';
                                                     $scope.allfils = {};
                                                      $scope.allfils = JSON.parse(value);
+
                                                     if (!e.seriesOptions) {
                                                         var chart = this,
                                                             drilldowns  = $scope.allfils;
                                                             series = drilldowns[e.point.name];
+                                                            //console.log(series);
                                                             series.colorByPoint = true;
+                                                            $scope.namechild = e.point.name;
                                                         // Show the loading label
                                                         chart.showLoading('<i class="icon-spinner icon-spin icon-3x"></i>');
                                                         setTimeout(function () {
@@ -233,6 +243,8 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                             chart.addSeriesAsDrilldown(e.point, series);
                                                         }, 2000);
                                                     }
+                                                  //   var isdrill = $scope.isdrilldown ;
+                                                  // $scope.titleAxis = series.name;
 
                                                 }
                                             }
@@ -243,7 +255,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                         xAxis: {
                                             type: 'category',
                                             title: {
-                                                text : 'Postes comptables de la région de '+e.point.name
+                                                text :  'Postes comptables de la région de '+ e.point.name
                                             }
                                         },
                                         yAxis: {
@@ -278,12 +290,12 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                         drilldown : {
                                             // series : $scope.allfils
                                             series : [],
-                                          drillUpButton : {
-                                            align: "right",
-                                            verticalAlign:"top",
-                                            x:0,
-                                            y:0
-                                          }
+                                          // drillUpButton : {
+                                          //   align: "right",
+                                          //   verticalAlign:"top",
+                                          //   x:0,
+                                          //   y:0
+                                          // }
                                         }
                                     })
                                     Highcharts.chart('pieContainer', {
@@ -298,11 +310,11 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                     $scope.nameofpoint = e.point.name;
                                                     angular.forEach($scope.results, function (it) {
                                                         if (it.parent !== null && it.parent == e.point.name) {
-                                                            var isdrilldown = it.level == form.level.split('|')[0] ? false : true
+                                                          $scope.isdrilldown = it.level == form.level.split('|')[0] ? false : true
                                                             drilldown.push({
                                                                 name : it.name,
                                                                 y : it.valeurAxe/divis,
-                                                                drilldown : isdrilldown
+                                                                drilldown : $scope.isdrilldown
                                                             })
                                                         }
 
