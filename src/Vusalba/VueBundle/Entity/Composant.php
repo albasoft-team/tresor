@@ -42,7 +42,12 @@ class Composant
      */
     private $groupe;
 
-
+   /**
+    * @var string
+    *
+    * @ORM\Column(name="lc", type="string", length=255, nullable=true)
+    */
+    private $lc;
 
     /**
      * Get id
@@ -126,4 +131,20 @@ class Composant
     {
         return $this->groupe;
     }
+
+   /**
+    * @return string
+    */
+   public function getLc()
+   {
+      return $this->lc;
+   }
+
+   /**
+    * @param string $lc
+    */
+   public function setLc($lc)
+   {
+      $this->lc = $lc;
+   }
 }
