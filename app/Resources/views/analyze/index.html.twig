@@ -139,13 +139,13 @@
                     <tbody ng-repeat="nb in postecomptabelNbCheque" id="bodyId[[nb.id]]">
                         <tr ng-if="nb.childrens.length > 0"  data-toggle="collapse" data-target="#demo[[nb.id]]" class="accordion-toggle">
                             <td><button style="margin-top: -5px !important;" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
-                            <td class="middlealign">[[ nb.name ]]</td>
+                            <td class="middlealign">[[ nb.description ]]</td>
                             <td class="nombreMask text-right middlealign">[[ nb.nbChq ]]</td>
                             <td class="nombreMask text-right middlealign">[[ nb.Mtotal ]]</td>
                         </tr>
                         <tr ng-if="nb.childrens.length == 0">
                             <td></td>
-                            <td class="middlealign">[[ nb.name ]]</td>
+                            <td class="middlealign">[[ nb.description ]]</td>
                             <td class="nombreMask  text-right middlealign">[[ nb.nbChq ]]</td>
                             <td class="nombreMask  text-right middlealign">[[ nb.Mtotal ]]</td>
                         </tr>
@@ -209,7 +209,7 @@
                         <h4 class="modal-title">Récupération impossible</h4>
                     </div>
                     <div class="modal-body">
-                        <p></p><i class="fa fa-warning text-red"></i> <strong>Oops!</strong> il n'y a pas de données sur cet interval.</p>
+                        <p></p><i class="fa fa-warning text-red"></i> <strong>Oops!</strong> il n'y a pas de données !!!.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary    " data-dismiss="modal">Fermer</button>

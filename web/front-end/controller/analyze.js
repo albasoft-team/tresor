@@ -136,9 +136,11 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                           })
                                                         }
                                                       });
+                                                      console.log(filsMt);
                                                         obj = '{'
                                                             +'"id" :"'+ data_id + '",'
                                                             +'"name" :"'+ filsMt.name + '",'
+                                                            +'"description" :"'+ filsMt.description + '",'
                                                             +'"nbChq" :'+ filsNb.y + ','
                                                             +'"Mtotal" :'+ filsMt.y*divis + ','
                                                             +'"childrens" :'+ JSON.stringify(childrens)
@@ -164,10 +166,12 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                           })
                                                         }
                                                       });
+                                                      console.log(filsNb);
 
                                                         obj = '{'
                                                             +'"id" :"'+ data_id + '",'
                                                             +'"name" :"'+ filsMt.name + '",'
+                                                            +'"description" :"'+ filsNb.description + '",'
                                                             +'"nbChq" :'+ filsMt.y + ','
                                                             +'"Mtotal" :'+ filsNb.y*1000000 + ','
                                                             +'"childrens" :'+ JSON.stringify(childrens)
@@ -212,6 +216,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
 
                                                     $scope.nameofpoint = e.point.name;
                                                     angular.forEach($scope.results, function (it) {
+                                                      console.log(it);
                                                         if (it.parent !== null && it.parent == e.point.name) {
                                                           $scope.isdrilldown = it.level == form.level.split('|')[0] ? false : true;
                                                             drilldown.push({

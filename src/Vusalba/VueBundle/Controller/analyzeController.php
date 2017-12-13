@@ -162,6 +162,7 @@ class analyzeController extends Controller
                         if ($list['valeurAxe'] > 0) {
                         array_push($fils, array(
                             'name' => $list['name'],
+                            'description' => $list['description'],
                             'y' => ($axe == 'NombreTotal') ? intval($list['valeurAxe']) : $list['valeurAxe'] / 1000000,
                             'drilldown' => $isdrilldown
                         ));
@@ -173,6 +174,7 @@ class analyzeController extends Controller
                 array_push($datasource, array(
                     'hc_key' => $keyregion,
                     'name' => $listnoeud['name'],
+                    'description' => $listnoeud['description'],
                     'value' => ($axe=='NombreTotal')?intval($parentaxevalue): $parentaxevalue / 1000000,
                     'fils' => $fils
                 ));
@@ -232,6 +234,7 @@ class analyzeController extends Controller
                 array_push($listNoeud, array(
                     'node' => $node->getId(),
                     'name' => $node->getName(),
+                    'description' => $node->getDescription(),
                     'level' => $node->getLevel(),
                     'parent' => $node->getParent() ? $node->getParent()->getName() : null,
                     'parentId' => $node->getParent() ? $node->getParent()->getId() : null,
