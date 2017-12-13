@@ -136,7 +136,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
                                                           })
                                                         }
                                                       });
-                                                      console.log(filsMt);
+                                                      //console.log(filsMt);
                                                         obj = '{'
                                                             +'"id" :"'+ data_id + '",'
                                                             +'"name" :"'+ filsMt.name + '",'
@@ -216,7 +216,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
 
                                                     $scope.nameofpoint = e.point.name;
                                                     angular.forEach($scope.results, function (it) {
-                                                      console.log(it);
+                                                     // console.log(it);
                                                         if (it.parent !== null && it.parent == e.point.name) {
                                                           $scope.isdrilldown = it.level == form.level.split('|')[0] ? false : true;
                                                             drilldown.push({
