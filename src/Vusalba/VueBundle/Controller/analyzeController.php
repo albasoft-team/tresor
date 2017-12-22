@@ -45,11 +45,14 @@ class analyzeController extends Controller
         ));
     }
 
-    /**
-     * @Route("/analyser", name="postdata_analyse", options={"expose" = true})
-     * @Method("POST")
-     */
+   /**
+    * @Route("/analyser", name="postdata_analyse", options={"expose" = true})
+    * @Method("POST")
+    * @param Request $request
+    * @return JsonResponse
+    */
     public function postDataAnalyse(Request $request) {
+        ini_set('memory_limit','1024M');
         $data = json_decode($request->getContent(), TRUE);
         $composant =  explode('|', $data['composant'])[0];
         $axe = explode('|',$data['axe'])[0];
