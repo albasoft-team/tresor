@@ -121,66 +121,114 @@
     <div ng-controller="analyzeController">
         <span us-spinner="{radius:30, width:8, length: 16}"></span>
         <div id="container" style="width:100%; height:550px;"></div>
-
-        <div id="tableauSynthese" class="box" style="margin-top: 10px!important; display: none">
+        <div id="tableauSynNat" class="box" style="margin-top: 10px!important; display: none">
             <div class="box-header">
-                <h3 class="box-title">Tableau de synthèse des postes comptable de la région de [[titre]] </h3>
+                <h3 class="box-title">Tableau de synthèse des postes comptable au niveau national </h3>
             </div>
-            <div  class="box-body" ng-show="postecomptabelNbCheque.length > 0" ng-init="escapeQuote()">
+            <div  class="box-body" ng-show="PcNbData.length > 0">
                 <table id="tableauResult" class="table collaptable table-bordered table-striped">
                     <thead style="background-color: #3c8dbc;color: white">
-                        <tr>
-                            <th style="width: 10px;"></th>
-                            <th>Titulaire</th>
-                            <th>Nombre</th>
-                            <th>Montant</th>
-                        </tr>
+                    <tr>
+                        <th style="width: 50px;"></th>
+                        <th style="width: 50px;"></th>
+                        <th>Poste</th>
+                        <th>Nombre</th>
+                        <th>Montant</th>
+                    </tr>
                     </thead>
-                    <tbody ng-repeat="nb in postecomptabelNbCheque" id="bodyId[[nb.id]]">
-                        <tr ng-if="nb.childrens.length > 0"  data-toggle="collapse" data-target="#demo[[nb.id]]" class="accordion-toggle">
-                            <td><button style="margin-top: -5px !important;" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
-                            <td class="middlealign">[[ nb.description ]]</td>
-                            <td class="nombreMask text-right middlealign">[[ nb.nbChq ]]</td>
-                            <td class="nombreMask text-right middlealign">[[ nb.Mtotal ]]</td>
-                        </tr>
-                        <tr ng-if="nb.childrens.length == 0">
+                     <tbody>
+                        <tr ng-repeat-start="it in PcNbData">
+                            <td>
+                                <a href="javascript:void(0);"  ng-if="it.expanded" ng-click="closeExpande(it)"><span class="glyphicon glyphicon-minus"></span></a>
+                                <a href="javascript:void(0);"  ng-if="!it.expanded" ng-click="openExpande(it)"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                            </td>
                             <td></td>
-                            <td class="middlealign">[[ nb.description ]]</td>
-                            <td class="nombreMask  text-right middlealign">[[ nb.nbChq ]]</td>
-                            <td class="nombreMask  text-right middlealign">[[ nb.Mtotal ]]</td>
+                            <td>[[it.name]]</td>
+                            <td class="text-right nombreMask">[[it.value2]]</td>
+                            <td class="text-right nombreMask">[[it.value]]</td>
                         </tr>
-
-                        <tr ng-if="nb.childrens.length > 0"  class="accordian-body collapse" id="demo[[nb.id]]">
+                        <tr ng-if="it.expanded"  ng-repeat-start="it2 in it.fils">
                             <td></td>
-                            <td>
-                                <table class="tableBanque">
-                                    <tr ng-repeat="child in nb.childrens">
-                                        <td>[[child.name]]</td>
-                                    </tr>
-                                </table>
-
+                            <td ng-if="it2.childs.length == 0"></td>
+                            <td ng-if="it2.childs.length > 0">
+                                <a href="javascript:void(0);"  ng-if="it2.expanded" ng-click="it2.expanded = false"><span class="glyphicon glyphicon-minus"></span></a>
+                                <a href="javascript:void(0);" ng-if="!it2.expanded" ng-click="it2.expanded = true"><span class="glyphicon glyphicon-plus-sign"></a>
                             </td>
-                            <td>
-                                <table class="tableBanque">
-                                    <tr ng-repeat="child in nb.childrens">
-                                        <td class="nombreMask text-right">[[child.nbTotal]]</td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <td>
-                                <table class="tableBanque">
-                                    <tr ng-repeat="child in nb.childrens">
-                                        <td  class="nombreMask text-right">[[child.valeur]]</td>
-                                    </tr>
-                                </table>
-                            </td>
+                            <td>[[it2.name]]</td>
+                            <td class="text-right nombreMask">[[it2.y2]]</td>
+                            <td class="text-right nombreMask">[[it2.y]]</td>
                         </tr>
+                         <tr ng-if="it2.expanded" ng-repeat-start="it3 in it2.childs">
+                                <td></td>
+                                <td></td>
+                                <td>[[it3.name]]</td>
+                                <td class="text-right nombreMask">[[it3.y2]]</td>
+                                <td class="text-right nombreMask">[[it3.y]]</td>
+                         </tr>
+                         <tr ng-repeat-end="" ng-hide="true"></tr>
+                         <tr ng-repeat-end="" ng-hide="true"></tr>
+                         <tr ng-repeat-end="" ng-hide="true"></tr>
+                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <td style="font-size: 20px;" class="text-center" colspan="3"><strong>TOTAL GENERAL</strong></td>
+                        <td id="nbChqTotalId" style="font-size: 20px" class="nombreMask text-right"><strong>[[nombreCheqTotal]]</strong></td>
+                        <td id="nbMntTotalId"  style="font-size: 20px" class="nombreMask text-right"><strong>[[nombreMntTotal]]</strong></td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div id="tableauSynthese" class="box" style="margin-top: 10px!important;display: none">
+            <div class="box-header">
+                <h3 class="box-title">Tableau de synthèse des postes comptable de la région de  [[titre]]</h3>
+            </div>
+            <div  class="box-body" ng-show="dataOfDrilldown.length > 0">
+                <table id="tableauResultDrill" class="table collaptable table-bordered table-striped">
+                    <thead style="background-color: #3c8dbc;color: white">
+                    <tr>
+                        <th style="width: 50px;"></th>
+                        <th>Poste</th>
+                        <th>Nombre</th>
+                        <th>Montant</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat-start="it in dataOfDrilldown">
+                        {#<td>#}
+                            {#<a href="javascript:void(0);"  ng-if="it.expanded" ng-click="closeExpande(it)"><span class="glyphicon glyphicon-minus"></span></a>#}
+                            {#<a href="javascript:void(0);"  ng-if="!it.expanded" ng-click="openExpande(it)"><span class="glyphicon glyphicon-plus-sign"></span></a>#}
+                        {#</td>#}
+                        {#<td></td>#}
+                        {#<td>[[it.name]]</td>#}
+                        {#<td class="text-right nombreMask">[[it.value2]]</td>#}
+                        {#<td class="text-right nombreMask">[[it.value]]</td>#}
+                    </tr>
+                    <tr  ng-repeat-start="it2 in it.fils">
+                        <td ng-if="it2.childs.length == 0"></td>
+                        <td ng-if="it2.childs.length > 0">
+                            <a href="javascript:void(0);"  ng-if="it2.expanded" ng-click="it2.expanded = false"><span class="glyphicon glyphicon-minus"></span></a>
+                            <a href="javascript:void(0);" ng-if="!it2.expanded" ng-click="it2.expanded = true"><span class="glyphicon glyphicon-plus-sign"></a>
+                        </td>
+                        <td>[[it2.name]]</td>
+                        <td class="text-right nombreMask">[[it2.y2]]</td>
+                        <td class="text-right nombreMask">[[it2.y]]</td>
+                    </tr>
+                    <tr ng-if="it2.expanded" ng-repeat-start="it3 in it2.childs">
+                        <td></td>
+                        <td>[[it3.name]]</td>
+                        <td class="text-right nombreMask">[[it3.y2]]</td>
+                        <td class="text-right nombreMask">[[it3.y]]</td>
+                    </tr>
+                    <tr ng-repeat-end="" ng-hide="true"></tr>
+                    <tr ng-repeat-end="" ng-hide="true"></tr>
+                    <tr ng-repeat-end="" ng-hide="true"></tr>
                     </tbody>
                     <tfoot>
                     <tr>
                         <td style="font-size: 20px;" class="text-center" colspan="2"><strong>TOTAL GENERAL</strong></td>
-                        <td style="font-size: 20px" class="nombreMask text-right"><strong>[[nbChqTotal]]</strong></td>
-                        <td style="font-size: 20px" class="nombreMask text-right"><strong>[[MntTotal]]</strong></td>
+                        <td  style="font-size: 20px" class="nombreMask text-right"><strong>[[nombreCheqTotal]]</strong></td>
+                        <td   style="font-size: 20px" class="nombreMask text-right"><strong>[[nombreMntTotal]]</strong></td>
                     </tr>
                     </tfoot>
                 </table>
@@ -218,8 +266,6 @@
 
             </div>
         </div>
-
-
         {#<div class="" id="chartContainer2"></div>#}
     </div>
 {% endblock %}

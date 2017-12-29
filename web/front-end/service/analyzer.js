@@ -2,6 +2,7 @@
 vusalbaApp.factory('analyseService', function ($http, $q) {
     var factory = {
         results : false,
+      dataOfDrilldown : [],
         postData : function (formData) {
             var deferred = $q.defer();
             $http.post(Routing.generate('postdata_analyse'), formData)
@@ -12,6 +13,17 @@ vusalbaApp.factory('analyseService', function ($http, $q) {
                     deferred.reject('impossible de recupérer les données !!!')
                 })
             return deferred.promise;
+        },
+        getTabSyntheseData : function (formData) {
+          var deferred = $q.defer();
+          $http.post(Routing.generate('postdata_temp'), formData)
+            .then(function (response) {
+              factory.results = response.data;
+              deferred.resolve(factory.results);
+            }, function (data) {
+              deferred.reject('impossible de recupérer les données !!!')
+            })
+          return deferred.promise;
         },
         getResultData : function () {
             var deferred = $q.defer();

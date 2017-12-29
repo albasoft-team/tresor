@@ -72,6 +72,18 @@ class Constante
        $stmt->execute();
        return $stmt->fetchAll();
    }
+//   public static function queryTest2(\Doctrine\DBAL\Connection $conn) {
+//      $query = "select  *  from node WHERE node.parent_id= '01063'" ;
+//      $stmt = $conn->prepare($query);
+//      $stmt->execute();
+//      return $stmt->fetchAll();
+//   }
+   public static function queryTest(\Doctrine\DBAL\Connection $conn) {
+      $query = "select  *  from input_table WHERE node_id LIKE 'SN%01063'" ;
+      $stmt = $conn->prepare($query);
+      $stmt->execute();
+      return $stmt->fetchAll();
+   }
 
    public static function getLastInput(\Doctrine\DBAL\Connection $conn) {
        $query = "SELECT id, composant_id, tags FROM input_table ORDER BY id DESC LIMIT 1";

@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Bienvenue | Vusulba{% endblock %}</title>
+        <title>{% block title %}Bienvenue | RSS {% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('senegal.png') }}" />
         <link rel="stylesheet" href="{{ asset('front-end/dist/css/style.css') }}">
@@ -102,9 +102,9 @@
             <!-- Logo -->
             <a href="#" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>V</b>AL</span>
+                <span class="logo-mini"><b>R</b>SS</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>VUSALBA</b> - Trésor public</span>
+                <span style="margin-left: -7px;" class="logo-lg"><b>Reporting </b>SICA-STAR</span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
@@ -217,7 +217,7 @@
             {#<div class="pull-right hidden-xs">#}
                 {#<b>Version</b> 2.3.8#}
             {#</div>#}
-            <strong>Copyright &copy; 2017 <a href="http://sn.albasoft.fr">Albasoft it</a>.</strong>
+            <strong>Copyright &copy; 2017 <a href="http://sn.albasoft.fr">Albasoft it</a> & <a href="javascript:void(0);">DI/DGCPT</a></strong>
         </footer>
 
         <!-- Control Sidebar -->
@@ -231,6 +231,7 @@
 
         <script src="{{ asset('front-end/plugins/jQuery/jquery-2.2.3.min.js') }}"></script>
         <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
         <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
         <script>
             $.widget.bridge('uibutton', $.ui.button);
@@ -274,6 +275,7 @@
         <script src="{{ asset('front-end/bower_components/highcharts/map/sn-all.js') }}"></script>
         <script src="{{ asset('front-end/node_modules/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
         <script src="{{ asset('front-end/bower_components/highcharts/modules/drilldown.js') }}"></script>
+        <script src="{{ asset('front-end/plugins/jQuery/jquery.aCollapTable.min.js') }}"></script>
 
 
 
@@ -367,6 +369,16 @@
                 data.fv.revalidateField('niveau');
             }
         })
+
+
+
+          $('.collaptable').aCollapTable({
+            startCollapsed: true,
+            addColumn: false,
+            plusButton: '<span class="i">+</span>',
+            minusButton: '<span class="i">-</span>'
+          });
+
     </script>
     <script src="{{ asset('front-end/bower_components/angular-xeditable/dist/js/xeditable.min.js') }}"></script>
     </body>
