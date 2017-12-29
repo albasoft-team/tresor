@@ -123,6 +123,7 @@ vusalbaApp.controller('analyzeController',['$scope','$rootScope', 'analyseServic
 
                               analyseService.getTabSyntheseData(form2)
                                   .then(function (response) {
+                                   // console.log(response);
                                     $rootScope.dataOfDrilldown = dataTabSynthese($rootScope.PcNbData, e.point.options.drilldown);
                                    // console.log($rootScope.dataOfDrilldown) ;
                                     $rootScope.nombreCheqTotal = 0;

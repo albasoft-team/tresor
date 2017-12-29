@@ -53,9 +53,14 @@ class analyzeController extends Controller
     * @return JsonResponse
     */
     public function getDataTemp(Request $request) {
-       $response = [];
+       $data = json_decode($request->getContent(), TRUE);
+       $levelname=  explode('|', $data['level'])[1];
+       $level = $this->getDoctrine()
+          ->getManager()
+          ->getRepository('VueBundle:Level')
+          ->findOneBy(array('name' => $levelname));
        $serializer = $this->get('serializer');
-       $arraResults = $serializer->normalize($response);
+       $arraResults = $serializer->normalize($level);
        return new JsonResponse([$arraResults]);
     }
    /**
@@ -170,6 +175,15 @@ class analyzeController extends Controller
 
         return new JsonResponse($arraResults);
     }
+
+   /**
+    * @param array $listNoeud
+    * @param $niveau
+    * @param $composant
+    * @param $axe
+    * @param $levelname
+    * @return array
+    */
     private function getDataSource($listNoeud = array(), $niveau, $composant,$axe, $levelname) {
         $datasource  = [];
         foreach ($listNoeud as $listnoeud) {
@@ -341,6 +355,7 @@ class analyzeController extends Controller
     * @param $listNoeud
     * @param $valeurAxe
     * @param $secondValeurAxe
+    * @return mixed
     */
     private function constructList(Node $node, &$listNoeud, $valeurAxe,$secondValeurAxe) {
         $exist = false;
