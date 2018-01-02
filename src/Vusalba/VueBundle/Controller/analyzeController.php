@@ -129,21 +129,8 @@ class analyzeController extends Controller
             $this->constructList($node, $listNoeud, $valeurAxe, $secondValeurAxe);
 //            $this->getResultData($listNoeud);
           //bricolage
-          $arrayTemp = array();
-          foreach ($listNoeud as $key => $lst) {
-             $exist = false;
-             foreach ($arrayTemp as $key2 => $item) {
-                if ($item['node'] == $lst['node']) {
-                   $exist = true;
-                   $arrayTemp[$key2]['valeurAxe'] += $listNoeud[$key]['valeurAxe'];
-                   $arrayTemp[$key2]['valeurAxe2'] += $listNoeud[$key]['valeurAxe2'];
-                }
-             }
-             if ($exist == false) {
-                array_push($arrayTemp, $lst);
-             }
-          }
-          $listNoeud = $arrayTemp;
+
+          //$listNoeud = $this->filtreListNoeud($listNoeud);
 //          foreach ($listNoeud as $key => $lst) {
 //               foreach ($listNoeud as $key2 => $lst2) {
 //                   if ($key!=$key2) {
@@ -162,7 +149,23 @@ class analyzeController extends Controller
         $arraResults = $serializer->normalize($response);
         return new JsonResponse([$arraResults, $listNoeud]);
     }
-
+    private function filtreListNoeud($listNoeud) {
+      $arrayTemp = array();
+      foreach ($listNoeud as $key => $lst) {
+         $exist = false;
+         foreach ($arrayTemp as $key2 => $item) {
+            if ($item['node'] == $lst['node']) {
+               $exist = true;
+               $arrayTemp[$key2]['valeurAxe'] += $listNoeud[$key]['valeurAxe'];
+               $arrayTemp[$key2]['valeurAxe2'] += $listNoeud[$key]['valeurAxe2'];
+            }
+         }
+         if ($exist == false) {
+            array_push($arrayTemp, $lst);
+         }
+      }
+      return $arrayTemp;
+    }
     /**
      * @param $arrayResults
      * @return JsonResponse
@@ -368,21 +371,38 @@ class analyzeController extends Controller
         }
         if (!$exist) {
             if ($valeurAxe > 0) {
-                array_push($listNoeud, array(
-                    'node' => $node->getId(),
-                    'name' => $node->getName(),
-                    'description' => $node->getDescription(),
-                    'level' => $node->getLevel(),
-                    'parent' => $node->getParent() ? $node->getParent()->getName() : null,
-                    'parentId' => $node->getParent() ? $node->getParent()->getId() : null,
-                    'valeurAxe' => $valeurAxe,
-                    'valeurAxe2' => $secondValeurAxe
-                ));
+                $this->purgeDuplicate($node, $listNoeud, $valeurAxe, $secondValeurAxe);
             }
 
         }
         if ($node->getParent() != null) {
                return $this->constructList($node->getParent(), $listNoeud, $valeurAxe, $secondValeurAxe);
         }
+
     }
+   private function purgeDuplicate(Node $node, &$listNoeud, $valeurAxe,$secondValeurAxe) {
+      $exist = false;
+       foreach ($listNoeud as $key => $lst) {
+            if ($lst['node'] == $node->getId()) {
+               $exist = true;
+               $listNoeud[$key]['valeurAxe'] += $valeurAxe;
+               $listNoeud[$key]['valeurAxe2'] += $secondValeurAxe;
+            }
+       }
+      if ($exist == false) {
+         array_push($listNoeud, array(
+            'node' => $node->getId(),
+            'name' => $node->getName(),
+            'description' => $node->getDescription(),
+            'level' => $node->getLevel(),
+            'parent' => $node->getParent() ? $node->getParent()->getName() : null,
+            'parentId' => $node->getParent() ? $node->getParent()->getId() : null,
+            'valeurAxe' => $valeurAxe,
+            'valeurAxe2' => $secondValeurAxe
+         ));
+
+      }
+      return $listNoeud;
+   }
+
 }
